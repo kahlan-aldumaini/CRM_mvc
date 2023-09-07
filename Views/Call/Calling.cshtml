@@ -1,0 +1,328 @@
+@model CallerDetailsViewModel
+@{
+    ViewData["title"] = "بيانات الاتصال";
+    Layout = "_CallLayout";
+}
+<!-- Layout wrapper -->
+<div class="layout-wrapper w-100 layout-content-navbar">
+    <!-- Menu -->
+
+    <!-- / Menu -->
+    <div class="content-wrapper w-100">
+        <!-- Content -->
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <!-- Layout container -->
+
+            <div class="card">
+                <div class="card-header border-bottom">
+
+                    <h2 class="card-title text-center text-primary ">@PageHeaders.Calling</h2>
+                    <div class="row mx-2">
+                        <div class="col-sm-12 col-md-4 col-lg-6">
+                            <div class="datatables_length" id="DataTables_Table_0_length">
+                                <div class="info-container">
+                                    <ul class="list-unstyled">
+                                        <li class="md-3">
+                                            <span class="fw-bold me-2">@Model.Name</span>
+                                        </li>
+                                        <li class="md-3">
+                                            <span>@Model.Email-@Model.Phone</span>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-lg-6">
+                            <div
+                                class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
+                                <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-primary  " data-bs-toggle="offcanvas"
+                                            data-bs-target="#sendInvoiceOffcanvas">
+                                            <span class="d-flex justify-content-center align-items-center text-nowrap">
+                                                <i class=""></i>إضافة سؤال
+                                            </span>
+                                        </button>
+                                        <a class="btn btn-danger" href="/call/@Model.Id/end">
+                                            إنهاء المكالمة
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="offcanvas offcanvas-end" id="sendInvoiceOffcanvas" style="visibility: visible;"
+                            aria-modal="true" role="dialog">
+                            <div class="offcanvas-header border-bottom">
+                                <h2 class="offcanvas-title"> إضافة سؤال </h2>
+                                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body flex-grow-1">
+                                <form method="post" action="/question/call/add/@Model.Id">
+                                    <div class="checkbox-card">
+                                        <label for="newQuestion" class="form-label">نص السؤال</label>
+                                        <input id="newQuestion" class="form-control typeahead" type="text"
+                                            name="question" autocomplete="off" placeholder="السؤال" />
+                                        <small>أدخل نبذة عن السؤال الذي سئل عنه العميل</small>
+
+                                        <div class="passport-box">
+                                            <label for="invoice-message" class="form-label">نص الجواب</label>
+                                            <textarea class="form-control " name="answer" id="invoice-message" cols="3"
+                                                rows="4">
+                         </textarea>
+                                            <small>أدخل إجابتك عن السؤال</small>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" name="hasAnswer" type="checkbox"
+                                                    id="checkme" />
+                                                <label class="form-check-label " for="text-nowrap"> بدون جواب </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary "
+                                            data-bs-dismiss="offcanvas">إضافة</button>
+                                        <button type="button" class="btn btn-secondary "
+                                            data-bs-dismiss="offcanvas">إلغاء</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row mt-2">
+                <div class="col-3">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="card-title m-0 me-2">الاتصالات السابقة</h5>
+
+                        </div>
+                        <div class="card-body">
+                            <!-- Activity Timeline -->
+                            @if (Model.Calls != null && Model.Calls.Count > 0)
+                            {
+                                <ul class="timeline">
+                                    @foreach (var item in Model.Calls)
+                                    {
+                                        <li class="timeline-item timeline-item-transparent ps-2">
+                                            <a href="/call/@item.Id">
+                                                <span class="timeline-point timeline-point-danger"></span>
+                                                <div class="timeline-event pb-2">
+                                                    <div class="timeline-header mb-1">
+                                                        <h4 class="mb-0">@item.DateTime</h4>
+
+                                                    </div>
+                                                    <p class="mb-3">@item.AnsweredBy</p>
+                                                    <div class="d-flex">
+
+                                                        <span class="text-body fw-bold">@item.Duration</span>
+
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                            <!-- /Activity Timeline -->
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-3">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="card-title m-0 me-2">الأسئلة السابقة</h5>
+
+                        </div>
+                        <div class="card-body h-50">
+                            <!-- Activity Timeline -->
+                            @if (Model.Questions != null && Model.Questions.Count > 0)
+                            {
+                                <ul class="timeline">
+                                    @foreach (var item in Model.Questions)
+                                    {
+                                        <li class="timeline-item timeline-item-transparent ps-4">
+                                            <span class="timeline-point timeline-point-danger"></span>
+                                            <div class="timeline-event pb-2">
+                                                <div class="timeline-header mb-1">
+                                                    <h4 class="mb-0">@item.Question</h4>
+
+                                                </div>
+                                                <p class="mb-3">@item.Answer</p>
+                                                <span>@item.Date</span>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                            <!-- /Activity Timeline -->
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Content -->
+
+                <div class="col-6">
+                    <!-- Layout container -->
+                    <div class="card">
+                        <h2 class="card-header"> مشاريع العميل </h2>
+                        <div class="card-datatable text-nowrap">
+                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_length" id="DataTables_Table_0_length">
+                                            <label>
+                                                <span class="px-2">@FormResources.Show</span>
+                                                <select name="DataTables_Table_0_length"
+                                                    aria-controls="DataTables_Table_0" class="form-select">
+                                                    <option value="10">10</option>
+                                                    <option value="25">25</option>
+                                                    <option value="50">50</option>
+                                                    <option value="100">100</option>
+                                                </select>
+                                                <span class="px-2">@FormResources.Inputs</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end">
+                                        <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                            <label>
+                                                <span class="px-2">@FormResources.SearchN:</span>
+                                                <input type="search" class="form-control"
+                                                    placeholder="@FormResources.Search" aria-controls="per_page">
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dataTables_scroll">
+                                    <div class="dataTables_scrollHead"
+                                        style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+
+                                    </div>
+                                    <div class="dataTables_scrollBody"
+                                        style="position: relative; overflow: auto; width: 100%; max-height: 300px; height: 300px;">
+                                        <table class="datatables-users table border-down">
+                                            <thead>
+                                                <tr>
+                                                    <th> @TableHeaderProject.Id</th>
+                                                    <th>@TableHeaderProject.ProjectName</th>
+                                                    <th> @TableHeaderProject.ProjectState </th>
+                                                    <th> @TableHeaderProject.RegistrationDate </th>
+                                                    <th> @TableHeaderProject.ProcessWalk </th>
+                                                </tr>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>مصنع الكبوس </td>
+                                                    <td>قيد المعاملة</td>
+                                                    <td>25/3/2023</td>
+                                                    <td>مكتب البيئة</td>
+                                                </tr>
+                                            </thead>
+
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status"
+                                            aria-live="polite">
+                                            عرض 1الى10من 100مدخلات
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_paginate paging_simple_numbers"
+                                            id="DataTables_Table_0_paginate">
+                                            <ul class="pagination">
+                                                <li class="paginate_button page-item previous disabled active"
+                                                    id="DataTables_Table_0_previous">
+                                                    <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0"
+                                                        tabindex="0" class="page-link">
+                                                        @FormResources.Previous
+                                                    </a>
+                                                </li>
+                                                <li class="paginate_button" id="">
+                                                    <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1"
+                                                        tabindex="0" class="page-link ">
+                                                        1/10
+                                                    </a>
+                                                </li>
+                                                <li class="paginate_button page-item next disabled active "
+                                                    id="DataTables_Table_0_next">
+                                                    <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1"
+                                                        tabindex="0" class="page-link">
+                                                        @FormResources.Next
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Offcanvas to add new user -->
+        </div>
+    </div>
+</div>
+
+@section Script{
+    <script>
+        let substringMatcher = function (strs) {
+            return function findMatches(q, cb) {
+                var matches, substrRegex;
+                matches = [];
+                substrRegex = new RegExp(q, 'i');
+                $.each(strs, function (i, str) {
+                    if (substrRegex.test(str)) {
+                        matches.push(str);
+                    }
+                });
+
+                cb(matches);
+            };
+        }
+        let questions = [];
+        @foreach (var item in Model.AllQuestions)
+        {
+            @:questions.push("@item.Title");
+        }
+            $(function () {
+                $("#checkme").click(function (event) {
+                    var x = $(this).is(':checked');
+                    if (x == false) {
+                        $(this).parents(".checkbox-card").find('.passport-box').show();
+                    }
+                    else {
+                        $(this).parents(".checkbox-card").find('.passport-box').hide();
+                    }
+                });
+
+                $('.typeahead').typeahead(
+                    {
+                        hint: !isRtl,
+                        highlight: true,
+                        minLength: 1
+                    },
+                    {
+                        name: 'states',
+                        source: substringMatcher(questions)
+                    }
+                );
+            });
+    </script>
+}

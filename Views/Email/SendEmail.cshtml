@@ -1,0 +1,147 @@
+﻿@model SendEmailViewModel
+@{
+    ViewData["title"] = "ارسل ايميل";
+}
+
+<div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+        <!-- Menu -->
+        <!-- / Menu -->
+        <div class="content-wrapper">
+            <!-- Content -->
+            <div class="container-xxl flex-grow-1 container-p-y">
+                <div class="card">
+                    <h2 class="card-header">@PageHeaders.SendEmail</h2>
+                    <div class="card-datatable text-nowrap">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                            <div class="row">
+                                <div class="dataTables_scroll">
+                                    <div class="dataTables_scrollHead"
+                                        style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+                                    </div>
+                                    <div class="dataTables_scrollBody"
+                                        style="position: relative; overflow: auto; width: 100%; max-height: 600px; height: 600px;">
+
+                                        <div class="" id="sendInvoiceOffcanvas" style="visibility: visible;"
+                                            aria-modal="true" role="dialog">
+                                            <form method="post" asp-action="SendEmail" asp-controller="Email">
+
+                                                <div class="offcanvas-body flex-grow-1">
+                                                    <div class="mb-3">
+                                                        <label asp-for="NewSendEmailViewModel.Subject"
+                                                            for="invoice-from" class="form-label"> العنوان</label>
+                                                        <input name="NewEmail.Subject" type="text" class="form-control"
+                                                            value="" placeholder="العنوان">
+                                                        <span asp-validation-for="NewEmail.Subject"></span>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label asp-for="NewSendEmailViewModel.To" for="select2Primary"
+                                                            class="form-label">إلى</label>
+                                                        @if (ViewData["email"] != null)
+                                                        {
+                                                            <select name="NewEmail.To" id="select2Primary"
+                                                                class="form-select">
+                                                                <option value="@ViewData["emailId"]">@ViewData["email"]
+                                                                </option>
+                                                            </select>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="select2-primary ">
+                                                                <select name="NewEmail.To" id="select2Primary"
+                                                                    class="select2 form-select" multiple>
+                                                                    @foreach (var item in Model.customers)
+                                                                    {
+                                                                        <option value="@item.Id">@item.Email</option>
+                                                                    }
+                                                                </select>
+                                                            </div>
+                                                        }
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="invoice-message" class="form-label">نص
+                                                            الرسالة</label>
+                                                        <textarea name="NewEmail.Body" class="form-control"
+                                                            id="invoice-message" placeholder="مرحبا..." cols="3"
+                                                            rows="12"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex flex-wrap mb-3 d-flex justify-content-end">
+                                                    <button type="reset" class="btn btn-danger"
+                                                        data-bs-dismiss="offcanvas">
+                                                        <i class="menu-icon tf-icons bx bx-x"></i>إلغاء
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary "
+                                                        data-bs-dismiss="offcanvas">
+                                                        <i class="bx bx-paper-plane bx-xs me-3"></i>إرسال
+                                                    </button>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <!-- Offcanvas to add new user -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Script{
+    <script>
+        $(function () {
+            const selectPicker = $('.selectpicker'),
+                select2 = $('.select2'),
+                select2Icons = $('.select2-icons');
+
+            // Bootstrap Select
+            // --------------------------------------------------------------------
+            if (selectPicker.length) {
+                selectPicker.selectpicker();
+            }
+
+            // Select2
+            // --------------------------------------------------------------------
+
+            // Default
+            if (select2.length) {
+                select2.each(function () {
+                    var $this = $(this);
+                    $this.wrap('<div class="position-relative"></div>').select2({
+                        placeholder: 'البريد الالكتروني',
+                        dropdownParent: $this.parent()
+                    });
+                });
+            }
+
+            // Select2 Icons
+            if (select2Icons.length) {
+                // custom template to render icons
+                function renderIcons(option) {
+                    if (!option.id) {
+                        return option.text;
+                    }
+                    var $icon = "<i class='bx bxl-" + $(option.element).data('icon') + " me-2'></i>" + option.text;
+
+                    return $icon;
+                }
+                select2Icons.wrap('<div class="position-relative"></div>').select2({
+                    templateResult: renderIcons,
+                    templateSelection: renderIcons,
+                    escapeMarkup: function (es) {
+                        return es;
+                    }
+                });
+            }
+        });
+    </script>
+}

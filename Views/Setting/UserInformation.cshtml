@@ -1,0 +1,411 @@
+﻿@model CustomerDetailsResponse
+@{
+    ViewData["title"] = "بيانات المستخدم";
+}
+<div class="content-wrapper">
+<!-- Content -->
+
+<div class="container-xxl flex-grow-1 container-p-y">
+<!-- Layout container -->
+
+<div class="">
+<div class="card">
+    <div class="card-header">
+        <a href="/setting" type="">
+            <button type="submit" class="btn btn-secondary ">
+                <i class="menu-icon tf-icons bx bx-chevron-right"></i>الرجوع
+            </button>
+        </a>
+        <h2 class="card-title text-center text-primary ">@PageHeaders.UserInformation </h2>
+    </div>
+
+    <div class="row mx-2 card-body">
+        <div class="col-sm-12 col-md-4 col-lg-6">
+            <div class="datatables_length" id="DataTables_Table_0_length">
+                <div class="info-container">
+                    <ul class="list-unstyled">
+                        <li class="md-3">
+                            <span class="fw-bold me-2">@Model.Name</span>
+                        </li>
+                        <li class="md-3">
+                            <span>@Model.Phone-@Model.Email</span>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-6">
+            <div
+                class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
+                <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary  " data-bs-toggle="offcanvas"
+                                data-bs-target="#sendInvoiceOffcanvas">
+                            <span class="d-flex justify-content-center align-items-center text-nowrap">
+                                تعديل
+                            </span>
+                        </button>
+                        <a href="/setting/deleteUser/@Model.Id">
+                            <button class="btn btn-danger" type="button"> توقيف </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row pt-2">
+<div class="col-sm-6 col-xl-3">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="card-title m-0 me-2">الاتصالات السابقة</h5>
+
+        </div>
+        <div class="card-body">
+            <!-- Activity Timeline -->
+            <ul class="timeline">
+                @if (Model.Calls != null)
+                {
+                    @foreach (var item in Model.Calls)
+                    {
+                        <li class="timeline-item timeline-item-transparent ps-2">
+                            <span class="timeline-point timeline-point-danger"></span>
+                            <div class="timeline-event pb-2">
+                                <div class="timeline-header mb-1">
+                                    <h4 class="mb-0">@item.DateTime</h4>
+                                </div>
+                                <p class="mb-3">@item.AnsweredBy</p>
+                                <div class="d-flex">
+                                    <span class="text-body fw-bold">
+                                        @item.Duration
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <h4 class="mb-0">لا يوجد اتصالات سابقة</h4>
+                }
+            </ul>
+            <!-- /Activity Timeline -->
+        </div>
+    </div>
+
+</div>
+<div class="col-sm-6 col-xl-3 ">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="card-title m-0 me-2">الرسائل السابقة</h5>
+
+        </div>
+        <div class="card-body">
+            <!-- Activity Timeline -->
+            <ul class="timeline">
+                @if (Model.Sessions != null)
+                {
+                    @foreach (var session in Model.Sessions)
+                    {
+                        <li class="timeline-item timeline-item-transparent ps-4">
+                            <span class="timeline-point timeline-point-danger"></span>
+                            <div class="timeline-event pb-2">
+                                <div class="timeline-header mb-1">
+                                    <h4 class="mb-0">@session.Title</h4>
+                                </div>
+                                <p class="mb-3">@session.DateTime - @session.PhoneNumber </p>
+                            </div>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <h4>لا يوجد جلسات سابقة</h4>
+                }
+
+            </ul>
+            <!-- /Activity Timeline -->
+        </div>
+    </div>
+
+</div>
+
+<!-- Content -->
+
+<div class="col-sm-6 col-xl-6 ">
+    <!-- Layout container -->
+    <div class="card">
+        <h2 class="card-header"> الوظائف </h2>
+        <div class="card-datatable text-nowrap">
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="dataTables_length" id="DataTables_Table_0_length">
+                            <label class="d-flex">
+                                <span class="px-2">@FormResources.Show</span>
+                                <select id="pageSize" class="form-select w-25 my-auto">
+                                    @if (ViewData["PageSize"] == "10")
+                                    {
+                                        <option value="10" selected>10</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="10">10</option>
+                                    }
+                                    @if (ViewData["PageSize"] == "25")
+                                    {
+                                        <option value="25" selected>25</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="25">25</option>
+                                    }
+                                    @if (ViewData["PageSize"] == "50")
+                                    {
+                                        <option value="50" selected>50</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="50">50</option>
+                                    }
+                                    @if (ViewData["PageSize"] == "100")
+                                    {
+                                        <option value="100" selected>100</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="100">100</option>
+                                    }
+                                </select>
+                                <span class="px-2">@FormResources.Inputs</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div
+                        class="col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end">
+                        <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                            <label>
+                                <span class="px-2">@FormResources.SearchN:</span>
+                                <input type="search" class="form-control"
+                                       placeholder="@FormResources.Search" aria-controls="per_page">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="dataTables_scroll">
+                    <div class="dataTables_scrollHead"
+                         style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+                    </div>
+                    <div class="dataTables_scrollBody"
+                         style="position: relative; overflow: auto; width: 100%; max-height: 300px; height: 300px;">
+                        <table class="datatables-users table border-down">
+                            <thead>
+                            <tr>
+                                <th> @TableHeaderJob.Id</th>
+                                <th>@TableHeaderJob.Job </th>
+                                <th> @TableHeaderJob.Description </th>
+                                <th>@TableHeaderJob.Processes </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td> مدير </td>
+                                <td>صلاحيات وصول كاملة للنظام </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger">حذف </button>
+                                </td>
+                            </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status"
+                             aria-live="polite">
+                            عرض
+                            @ViewData["StartRowNumber"]
+                            الى
+                            @ViewData["EndRowNumber"]
+                            من
+                            @ViewData["TotalItem"]
+                            صف
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="dataTables_paginate paging_simple_numbers"
+                             id="DataTables_Table_0_paginate">
+                            <ul class="pagination">
+                                <li class="paginate_button page-item previous active"
+                                    id="DataTables_Table_0_previous">
+                                    <a href='@ViewData["PreviousPage"]'
+                                       aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0"
+                                       class="page-link">
+                                        @FormResources.Previous
+                                    </a>
+                                </li>
+                                <li class="paginate_button" id="">
+                                    <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1"
+                                       tabindex="0" class="page-link ">
+                                        @ViewData["Page"]/@ViewData["TotalPage"]
+                                    </a>
+                                </li>
+                                <li class="paginate_button page-item next active "
+                                    id="DataTables_Table_0_next">
+                                    <a href='@ViewData["NextPage"]' aria-controls="DataTables_Table_0"
+                                       data-dt-idx="1" tabindex="0" class="page-link">
+                                        @FormResources.Next
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Offcanvas to add new user -->
+
+</div>
+</div>
+</div>
+
+@* update new user *@
+<div class="offcanvas offcanvas-end" id="sendInvoiceOffcanvas" style="visibility: visible;" aria-modal="true"
+     role="dialog">
+    <div class="offcanvas-header border-bottom">
+        <h2 class="offcanvas-title">تعديل بيانات المستخدم </h2>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body flex-grow-1">
+        <form id="formAuthentication" class="mb-3" method="post" action="/setting/storeUser">
+            <input type="hidden" name="Id" value="@Model.User?.Id">
+            @if (ViewBag.ErrorLogin == false)
+            {
+                <div class="mb-3">
+                    <span class="alert alert-danger">@FormResources.LoginError</span>
+                </div>
+            }
+            <div class="mb-3">
+                <label asp-for="UserName" class="form-label">@OffcanvasResource.UserName</label>
+                <input class="form-control" value="@Model.User?.Name" type="text" id="username" name="Name"
+                       placeholder="اسم المستخدم" autofocus>
+                <small class="text-danger" asp-validation-for="UserName"></small>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">@OffcanvasResource.Email </label>
+                <input class="form-control" type="email" value="@Model.User?.Email" id="email"
+                       placeholder="emp@gmail.com " name="Email">
+                <small class="text-danger" asp-validation-for="Email"></small>
+            </div>
+            <div class="form-group mb-3 d-flex">
+                <input type="checkbox" class=" form-check form-check-success w-px-20" id="has_password"
+                       name="HasPassword">
+                <label for="has_password" class="form-label mx-2">
+                    هل تريد تغيير كلمة المرور؟
+                </label>
+            </div>
+            <div class="form-password-toggle mb-3">
+                <div class="d-flex justify-content-between">
+                    <label asp-for="Password" class="form-label">@OffcanvasResource.Password </label>
+                </div>
+                <div class="input-group input-group-merge ">
+                    <input class="form-control" type="password" id="password" name="Password"
+                           placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                           aria-describedby="password">
+                    <span class="input-group-text cursor-pointer">
+                        <i class="bx bx-hide"></i>
+                    </span>
+
+                </div>
+                <div class="form-password-toggle my-3">
+                    <div class="d-flex justify-content-between">
+                        <label for="confirm_password" asp-for="Password" class="form-label">
+                            تأكيد
+                            @OffcanvasResource.Password
+                        </label>
+                    </div>
+                    <div class="input-group input-group-merge ">
+                        <input class="form-control" type="password" id="confirm_password" name="ConfirmPassword"
+                               placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                               aria-describedby="password">
+                        <span class="input-group-text cursor-pointer">
+                            <i class="bx bx-hide"></i>
+                        </span>
+                    </div>
+                    <small class="text-danger" asp-validation-for="Email"></small>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" asp-for="Jop">الوظائف </label>
+                <select class="form-select" name="Roles" id="user-rule">
+                    @if (Model.User?.Roles == "USER")
+                    {
+                        <option selected value="USER">User</option>
+                    }
+                    else
+                    {
+                        <option value="USER">User</option>
+                    }
+                    @if (Model.User?.Roles == "ADMIN")
+                    {
+                        <option selected value="ADMIN">Admin</option>
+                    }
+                    else
+                    {
+                        <option value="ADMIN">Admin</option>
+                    }
+
+                </select>
+                <small class="text-danger" asp-validation-for="Role"></small>
+            </div>
+            <div id="extention" class="mb-3">
+                <label asp-for="" class="form-label">رقم التعريف </label>
+                <input class="form-control" type="text" value="@Model.User?.Extension" name="Extension"
+                       id="identificationnumber" placeholder="002">
+                <small class="text-danger" asp-validation-for=""></small>
+            </div>
+
+
+            <div class="row">
+                <div class="col-6 px-2">
+                    <button type="submit" class="btn btn-primary w-100">@OffcanvasResource.Add</button>
+                </div>
+                <div class="col-6 px-2">
+                    <button type="reset" class="btn btn-danger w-100" data-bs-dismiss="offcanvas">
+                        @OffcanvasResource.Cancel
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Script {
+    <script>
+        $(document).ready(function () {
+            $('#user-rule').on('change', function (e) {
+                if ($('#user-rule').val() == "USER") {
+                    $('#extention').show();
+                } else {
+                    $('#extention').hide();
+                }
+            })
+            $('.form-password-toggle').hide();
+            $('#has_password').on('change', e => {
+                if ($('#has_password').is(':checked')) {
+                    $('.form-password-toggle').show();
+                } else {
+                    $('.form-password-toggle').hide();
+                }
+            })
+        });
+    </script>
+}

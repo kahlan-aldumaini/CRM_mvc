@@ -1,0 +1,200 @@
+@model PotentialCustomerViewModel
+
+@{
+    ViewData["title"] = "بيانات الاتصال";
+    Layout = "_CallLayout";
+}
+
+<div class="layout-wrapper layout-content-navbar">
+    <!-- Menu -->
+
+    @* <div class="layout-page"> *@
+    <!-- Layout wrapper -->
+
+
+    <!-- / Menu -->
+    <div class="content-wrapper">
+        <!-- Content -->
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <!-- Layout container -->
+
+            <div class="card">
+                <div class="card-header border-bottom">
+
+                    <h2 class="card-title text-center text-primary "> جاري الإتصال </h2>
+                    <div class="row mx-2">
+                        <div class="col-sm-12 col-md-4 col-lg-6">
+                            <div class="datatables_length" id="DataTables_Table_0_length">
+                                <div class="info-container">
+                                    <ul class="list-unstyled">
+                                        <li class="md-3">
+                                            <span>@Model.Phone</span>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-lg-6">
+                            <div
+                                class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
+                                <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                    <div class="d-grid gap-2">
+                                        <a href="end" class="btn btn-danger" type="button">
+                                            إنهاء المكالمة
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row g-3 mb-3 d-flex justify-content-center">
+
+
+            <!-- Content -->
+
+            <div class="col-6 px-4">
+                <!-- Layout container -->
+                <div class="card px-4">
+                    <h2 class="card-header text-center"> معلومات الاتصال </h2>
+                    <div class="card-datatable text-nowrap">
+                        <h5>العميل</h5>
+
+                        <form method="post" action="/call/@Model.Id/new" id="editUserForm"
+                            class="row g-3 fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
+
+                            <div class="col-12 fv-plugins-icon-container">
+                                <label class="form-label" for="modalEditUserName">اسم العميل</label>
+                                <input type="text" id="modalEditUserName" name="CustomerName" class="form-control"
+                                    placeholder="اسم المتصل">
+                                <div class="fv-plugins-message-container invalid-feedback"></div>
+                            </div>
+                            <h5>المشروع</h5>
+                            <div class="col-12 col-md-4">
+                                <label class="form-label" for="owner_name">اسم المشروع</label>
+                                <input type="text" id="owner_name" name="ProjectName" class="form-control"
+                                    placeholder="اسم المشروع">
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label class="form-label" for="project_name">اسم المالك</label>
+                                <input type="text" id="project_name" name="OwnerName" class="form-control"
+                                    placeholder="اسم المالك">
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label class="form-label" for="project_field">مجال المشروع</label>
+                                <input id="project_field" class="form-control typeahead" type="text" name="ProjectType"
+                                    autocomplete="off" placeholder="مجال المشروع" />
+                            </div>
+                            <h5>العنوان</h5>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="city">المدينة </label>
+                                <input id="city" class="form-control typeahead" type="text" name="City"
+                                    autocomplete="off" placeholder="المدينة" />
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="title"> العنوان</label>
+                                <div class="input-group input-group-merge">
+
+                                    <input type="text" id="title" name="Address" class="form-control phone-number-mask"
+                                        placeholder=" العنوان">
+                                </div>
+                            </div>
+
+
+                            <div class="col-12 text-center mt-4 d-flex justify-content-md-end">
+                                <button type="submit" class="btn btn-primary me-1 me-sm-3">حفظ العميل</button>
+                            </div>
+
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- Offcanvas to add new user -->
+
+        </div>
+    </div>
+    @* </div> *@
+    <!-- / Layout wrapper -->
+</div>
+
+@section Script
+    {
+
+
+    <script>
+        let substringMatcher = function (strs) {
+            return function findMatches(q, cb) {
+                var matches, substrRegex;
+                matches = [];
+                substrRegex = new RegExp(q, 'i');
+                $.each(strs, function (i, str) {
+                    if (substrRegex.test(str)) {
+                        matches.push(str);
+                    }
+                });
+
+                cb(matches);
+            };
+        }
+        // for project type
+        let projectType = [];
+        @foreach (var item in Model.ProjectTypes)
+        {
+            @:projectType.push("@item.Name");
+        }
+
+            // for city 
+            let city = [];
+        @foreach (var item in Model.Cities)
+        {
+            @:city.push("@item.Name");
+        }
+
+            $(function () {
+                $("#checkme").click(function (event) {
+                    var x = $(this).is(':checked');
+                    if (x == false) {
+                        $(this).parents(".checkbox-card").find('.passport-box').show();
+                    }
+                    else {
+                        $(this).parents(".checkbox-card").find('.passport-box').hide();
+                    }
+                });
+
+                // for project type
+                $('#project_field').typeahead(
+                    {
+                        hint: !isRtl,
+                        highlight: true,
+                        minLength: 1
+                    },
+                    {
+                        name: 'project-type',
+                        source: substringMatcher(projectType)
+                    }
+                );
+
+                // for city
+                $('#city').typeahead(
+                    {
+                        hint: !isRtl,
+                        highlight: true,
+                        minLength: 1
+                    },
+                    {
+                        name: 'city',
+                        source: substringMatcher(city)
+                    }
+                );
+            });
+    </script>
+}

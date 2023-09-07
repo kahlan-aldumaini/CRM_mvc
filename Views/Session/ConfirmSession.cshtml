@@ -1,0 +1,47 @@
+﻿@*
+For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["title"] = "تأكيد الحجز";
+}
+<div class="container-xxl">
+    <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner py-4 d-flex align-items-center justify-content-center">
+            <!-- Register -->
+            <div class="card" style="width:400px !important;">
+                <div class="card-body">
+                    <!-- Logo -->
+
+                    <div class="container">
+                        <img src="~/assets/img/favicon/crm.png" style="width:100% !important; height:100%;" />
+                    </div>
+                    <div class="app-brand justify-content-center">
+                        <span class="app-brand-text demo h3 fw-bold mb-0">@SystemInfoResource.SystemName</span>
+
+                    </div>
+
+                    <!-- /Logo -->
+
+
+                    <h2>@FormResources.ConfirmSession </h2>
+                    <p>@FormResources.EnterInformationConfirmSession </p>
+                    <form id="formAuthentication" class="mb-3" action="" method="POST">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">@FormResources.Code </label>
+                            <input type="number" class="form-control" id="" name="code"
+                                placeholder=" @FormResources.EnterConfirmCode " autofocus />
+                        </div>
+
+
+                        <div class="mb-3">
+                            <button class="btn btn-primary d-grid w-100" type="submit"> @FormResources.Confirm </button>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+            <!-- /Register -->
+        </div>
+    </div>
+</div>

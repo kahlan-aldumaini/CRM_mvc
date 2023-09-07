@@ -1,0 +1,501 @@
+﻿@model UserViewModel
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    ViewData["title"] = "مستخدمي النظام";
+}
+
+<div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+        <!-- Menu -->
+
+        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+            <div class="app-brand demo">
+                <a href="/" class="app-brand-link">
+                    <span class="app-brand-logo demo">
+                        <img src="~/assets/img/favicon/crm-small.png" style="width:100% " alt="" />
+                    </span>
+                    <span class="app-brand-text demo menu-text fw-bold ms-2" style="font-size:x-large">
+                        @SystemInfoResource.SystemName
+                    </span>
+                </a>
+                <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+                    <i class="bx menu-toggle-icon fs-4 d-none d-xl-block align-middle"></i>
+                    <i class="bx bx-x bx-sm d-xl-none d-block align-middle"></i>
+                </a>
+            </div>
+            <div class="menu-divider mt-0"></div>
+            <div class="menu-inner-shadow"></div>
+            <ul class="menu-inner py-1">
+                <li class="menu-item">
+                    <a href="/" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-home"></i>
+                        <div>الصفحة الرئيسية</div>
+                    </a>
+                </li>
+                <li class="menu-item" style="">
+                    <a href="/customer" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-user"></i>
+                        <div>@SideBarResources.Clients</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/call" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-phone"></i>
+                        <div>@SideBarResources.Calls</div>
+                    </a>
+                </li>
+                @* <li class="menu-item">
+                    <a href="/session" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-chat"></i>
+                        <div>@SideBarResources.Sessions</div>
+                    </a>
+                </li> *@
+                <li class="menu-item ">
+                    <a href="/message" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-message"></i>
+                        <div>@SideBarResources.Message</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/email" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-envelope"></i>
+                        <div>@SideBarResources.EmailMessage</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/question" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-question-mark"></i>
+                        <div>@SideBarResources.QuestionAndAnswers</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-calendar"></i>
+                        <div>@SideBarResources.Scheduling</div>
+                    </a>
+                </li>
+                @{
+                    var user = await UserManager.GetUserAsync(User);
+                    var role = await UserManager.GetRolesAsync(user);
+                }
+                @if (role.Contains("ADMIN"))
+                {
+                    <li class="menu-item open">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-cog"></i>
+                            <div>@SideBarResources.Setting</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item active">
+                                <a href="/setting" class="menu-link">
+                                    <div>@SideBarResources.SystemUsers</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <li class="menu-item mt-auto">
+                        <div class="menu-link pb-2 align-self-end d-flex align-items-center justify-content-between">
+                            <a href="/setting/userinformation?id=@UserManager.GetUserId(User)" class="text-secondary">
+                                <i class="menu-icon tf-icons bx bx-user"></i>
+                                @if ((await UserManager.GetUserAsync(User)).Extentions?.Count() > 0)
+                                {
+                                    @((await UserManager.GetUserAsync(User)).Extentions.First().ExtensionNumber)
+                                }
+                                @UserManager.GetUserName(User)
+                            </a>
+                            <a href="/Account/Logout" class="align-self-end text-secondary">
+                                <i class="menu-icon tf-icons bx bx-log-in cursor-pointer icons-danger"></i>
+                            </a>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </aside>
+        <!-- / Menu -->
+        <div class="layout-page">
+            <div class="content-wrapper">
+                <!-- Content -->
+
+                <div class="container-xxl flex-grow-1 container-p-y">
+
+
+                    <div class="card">
+                        <h2 class="card-header"> @PageHeaders.Users </h2>
+                        <div class="card-datatable text-nowrap">
+                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                                <form method="post" action="/setting" class="row">
+                                    <div class="col-sm-12 col-md-6" style="width: 30%;">
+                                        <div class="dataTables_length" id="DataTables_Table_0_length">
+                                            <label class="d-flex">
+                                                <span class="px-2 my-auto">@FormResources.Show</span>
+                                                <select id="pageSize" class="form-select w-25 my-auto">
+                                                    @if (ViewData["PageSize"]?.ToString() == "10")
+                                                    {
+                                                        <option value="10" selected>10</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="10">10</option>
+                                                    }
+                                                    @if (ViewData["PageSize"]?.ToString() == "25")
+                                                    {
+                                                        <option value="25" selected>25</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="25">25</option>
+                                                    }
+                                                    @if (ViewData["PageSize"]?.ToString() == "50")
+                                                    {
+                                                        <option value="50" selected>50</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="50">50</option>
+                                                    }
+                                                    @if (ViewData["PageSize"]?.ToString() == "100")
+                                                    {
+                                                        <option value="100" selected>100</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="100">100</option>
+                                                    }
+                                                </select>
+                                                <span class="px-2">@FormResources.Inputs</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end "
+                                        style="width: 70%;">
+                                        <div
+                                            class="col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end ">
+                                            <div class=" d-flex align-items-center">
+                                                <label class="form-label form-group d-flex m-auto align-items-center">
+                                                    <span class="px-2">@FormResources.SearchN:</span>
+                                                    <input type="search" id="search" class="form-control"
+                                                        value='@ViewData["Search"]' placeholder="@FormResources.Search"
+                                                        aria-controls="per_page">
+                                                </label>
+                                            </div>
+
+                                            <div id="per_page_filter" class="dataTables_filter mx-2 d-flex">
+                                                <button class=" btn-icon btn btn-outline-dark m-auto" type="button"
+                                                    data-bs-toggle="offcanvas" data-bs-target="#settingFilter">
+                                                    <i class="bx bx-filter"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="demo-inline-spacing">
+
+                                            <button class="btn btn-primary  " type="button" data-bs-toggle="offcanvas"
+                                                data-bs-target="#sendInvoiceOffcanvas">
+                                                <span
+                                                    class="d-flex justify-content-center align-items-center text-nowrap">
+                                                    <i class="bx bx-paper-plane bx-user me-3"></i>
+                                                    @OffcanvasResource.AddUser
+                                                </span>
+                                            </button>
+
+                                        </div>
+                                    </div>
+
+                                </form>
+                                <div class="dataTables_scroll">
+                                    <div class="dataTables_scrollHead"
+                                        style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+                                    </div>
+                                    <div class="dataTables_scrollBody"
+                                        style="position: relative; overflow: auto; width: 100%; max-height: 350px; height: 350px;">
+                                        <table class="datatables-users table border-down">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:50px;"> @TableHeaderUser.Id</th>
+                                                    <th>@TableHeaderUser.UserName </th>
+                                                    <th style="width:50px;"> @TableHeaderUser.Job </th>
+                                                    <th style="width:90px;"> @TableHeaderUser.Details </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.Users)
+                                                {
+                                                    <tr>
+                                                        <td>@item.Id</td>
+                                                        <td>@item.Name</td>
+                                                        <td>@item.Role</td>
+                                                        <td>
+                                                            @if (item.IsDeleted)
+                                                            {
+                                                                <a href="/setting/restoreUser/@item.Id">
+                                                                    <i class="menu-icon tf-icons bx bx-reset"></i>
+                                                                </a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <a href="/setting/userinformation?id=@item.Id">
+                                                                    <i class="menu-icon tf-icons bx bx-link-external"></i>
+                                                                </a>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+
+
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status"
+                                            aria-live="polite">
+                                            عرض
+                                            @ViewData["StartRowNumber"]
+                                            الى
+                                            @ViewData["EndRowNumber"]
+                                            من
+                                            @ViewData["TotalItem"]
+                                            صف
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_paginate paging_simple_numbers"
+                                            id="DataTables_Table_0_paginate">
+                                            <ul class="pagination">
+                                                @if (int.Parse(ViewData["Page"].ToString()) > 1)
+                                                {
+                                                    <li class="paginate_button page-item previous active"
+                                                        id="DataTables_Table_0_previous">
+                                                        <a href='@ViewData["PreviousPage"]'
+                                                            aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0"
+                                                            class="page-link">
+                                                            @FormResources.Previous
+                                                        </a>
+                                                    </li>
+                                                }
+                                                <li class="paginate_button" id="">
+                                                    <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1"
+                                                        tabindex="0" class="page-link ">
+                                                        @ViewData["Page"]/@ViewData["TotalPage"]
+                                                    </a>
+                                                </li>
+                                                @if (int.Parse(ViewData["Page"].ToString()) <
+                                                int.Parse(ViewData["TotalPage"].ToString()))
+                                                {
+                                                    <li class="paginate_button page-item next active "
+                                                        id="DataTables_Table_0_next">
+                                                        <a href='@ViewData["NextPage"]' aria-controls="DataTables_Table_0"
+                                                            data-dt-idx="1" tabindex="0" class="page-link">
+                                                            @FormResources.Next
+                                                        </a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* create new user *@
+<div class="offcanvas offcanvas-end" id="sendInvoiceOffcanvas" style="visibility: visible;" aria-modal="true"
+    role="dialog">
+    <div class="offcanvas-header border-bottom">
+        <h2 class="offcanvas-title">@OffcanvasResource.AddUser </h2>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body flex-grow-1">
+        <form id="formAuthentication" class="mb-3" method="post" action="/setting/storeUser">
+            @if (ViewBag.ErrorLogin == false)
+            {
+                <div class="mb-3">
+                    <span class="alert alert-danger">@FormResources.LoginError</span>
+                </div>
+            }
+            <div class="mb-3">
+                <label asp-for="UserName" class="form-label">@OffcanvasResource.UserName</label>
+                <input class="form-control" type="text" id="username" name="Name" placeholder="اسم المستخدم" autofocus>
+                <small class="text-danger" asp-validation-for="UserName"></small>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">@OffcanvasResource.Email </label>
+                <input class="form-control" type="email" id="email" placeholder="emp@gmail.com " name="Email">
+                <small class="text-danger" asp-validation-for="Email"></small>
+            </div>
+            <div class="form-password-toggle mb-3">
+                <div class="d-flex justify-content-between">
+                    <label asp-for="Password" class="form-label">@OffcanvasResource.Password </label>
+                </div>
+                <div class="input-group input-group-merge ">
+
+                    <input class="form-control" type="password" id="password" name="Password"
+                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                        aria-describedby="password">
+                    <span class="input-group-text cursor-pointer">
+                        <i class="bx bx-hide"></i>
+                    </span>
+
+                </div>
+                <div class="form-password-toggle my-3">
+                    <div class="d-flex justify-content-between">
+                        <label for="confirm_password" asp-for="Password" class="form-label">
+                            تأكيد
+                            @OffcanvasResource.Password
+                        </label>
+                    </div>
+                    <div class="input-group input-group-merge ">
+
+                        <input class="form-control" type="password" id="confirm_password" name="ConfirmPassword"
+                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                            aria-describedby="password">
+                        <span class="input-group-text cursor-pointer">
+                            <i class="bx bx-hide"></i>
+                        </span>
+
+                    </div>
+                    <small class="text-danger" asp-validation-for="Email"></small>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" asp-for="Jop">الوظائف </label>
+                <select class="form-select" name="Roles" id="user-rule">
+                    <option selected value="USER">User</option>
+                    <option value="ADMIN">Admin</option>
+                    @* <option value="BACKOFFICE">Back Office</option> *@
+                </select>
+                <small class="text-danger" asp-validation-for="Role"></small>
+            </div>
+            <div id="extention" class="mb-3">
+                <label asp-for="" class="form-label">رقم التعريف </label>
+                <input class="form-control" type="text" name="Extension" id="identificationnumber" placeholder="002 ">
+                <small class="text-danger" asp-validation-for=""></small>
+            </div>
+
+
+            <div class="row">
+                <div class="col-6 px-2">
+                    <button type="submit" class="btn btn-primary w-100">@OffcanvasResource.Add</button>
+                </div>
+                <div class="col-6 px-2">
+                    <button type="reset" class="btn btn-danger w-100" data-bs-dismiss="offcanvas">
+                        @OffcanvasResource.Cancel
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@* filter and export to excel *@
+<div class="offcanvas offcanvas-end" id="settingFilter" style="visibility: visible;" aria-modal="true" role="dialog">
+    <div class="offcanvas-header border-bottom">
+        <h2 class="offcanvas-title">فلاتر</h2>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body flex-grow-1">
+        <form id="formAuthentication" class="mb-3" method="get">
+            <div class="col-12 mb-4">
+                <label for="dateRangePicker" class="form-label">التاريخ</label>
+                <div class="input-group input-daterange" id="bs-datepicker-daterange">
+                    <input type="text" name="from_date" id="dateRangePicker" value='@ViewData["FromDate"]'
+                        placeholder="من: MM/DD/YYYY" class="form-control">
+                    <span class="input-group-text">الى</span>
+                    <input type="text" name="to_date" value='@ViewData["ToDate"]' placeholder="الى: MM/DD/YYYY"
+                        class="form-control">
+                </div>
+            </div>
+
+            <div class="col-12 mb-4">
+                <label for="dateRangePicker" class="form-label">التاريخ</label>
+                <div class="input-group input-daterange" id="bs-datepicker-daterange">
+                    <select class="form-select" name="userType" id="userType">
+                        @if (ViewData["UserType"]?.ToString() == "ALL")
+                        {
+                            <option selected value="ALL">الكل</option>
+                        }
+                        else
+                        {
+                            <option value="ALL">الكل</option>
+                        }
+                        @if (ViewData["UserType"]?.ToString() == "USER")
+                        {
+                            <option selected value="USER">المستخدمين</option>
+                        }
+                        else
+                        {
+                            <option value="USER">المستخدمين</option>
+                        }
+                        @if (ViewData["UserType"]?.ToString() == "ADMIN")
+                        {
+                            <option selected value="ADMIN">المشرفين</option>
+                        }
+                        else
+                        {
+                            <option value="ADMIN">المشرفين</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mt-auto">
+                <div class="form-group col-4 px-1">
+                    <button type="submit" class="btn btn-primary w-100">تحديث</button>
+                </div>
+                <div class="form-group col-4 px-1">
+                    <a id="to_excel"
+                        href='/setting/export-to-excel?from_date=@ViewData["FromDate"]&to_date=@ViewData["ToDate"]&UserType=@ViewData["UserType"]'
+                        class="btn btn-outline-success d-flex align-items-center justify-content-around fw-bold w-100"
+                        style="font-size: 12pt;">
+                        <i class="tf-icons bx bx-download"></i>
+                        <span class="px-2">Excel</span>
+                    </a>
+                </div>
+                <div class="form-group col-4 px-1">
+                    <a href="/setting" class="btn btn-outline-danger w-100">
+                        تصفية
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Script{
+    <script>
+        $(document).ready(function () {
+            $('#user-rule').on('change', function (e) {
+                if ($('#user-rule').val() == "USER") {
+                    $('#extention').show();
+                } else {
+                    $('#extention').hide();
+                }
+            })
+
+            const bsDatepickerRange = $('#bs-datepicker-daterange'), toExcel = $("#to_excel"), userType = $("#userType")
+            if (bsDatepickerRange.length) {
+                bsDatepickerRange.find('input').datepicker({
+                    todayHighlight: true,
+                    orientation: 'auto left'
+                });
+            }
+            function getExcel() {
+                toExcel.attr("href", `/setting/export-to-excel?from_date=${bsDatepickerRange.find('input').first().val()}&to_date=${bsDatepickerRange.find('input').last().val()}&UserType=${userType.val()}`)
+            }
+            userType.on('change', getExcel);
+            bsDatepickerRange.children('input').on('change', getExcel)
+        })
+
+    </script>
+}

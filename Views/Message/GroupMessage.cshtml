@@ -1,0 +1,127 @@
+﻿@inject ApplicationDbContext DbContext
+@{
+    ViewData["title"] = "الرسائل الجماعية";
+}
+<div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+        <!-- Menu -->
+        <!-- / Menu -->
+        <div class="content-wrapper">
+            <!-- Content -->
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+
+
+                <div class="card">
+                    <h2 class="card-header">@PageHeaders.GroupMessage</h2>
+                    <div class="card-datatable text-nowrap">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                            <div class="row">
+                                <div class="dataTables_scroll">
+                                    <div class="dataTables_scrollHead"
+                                         style="overflow: hidden; position: relative; border: 0; width: 100%;">
+                                    </div>
+                                    <div class="dataTables_scrollBody"
+                                         style="position: relative; overflow: auto; width: 100%; max-height: 600px; height: 600px;">
+
+                                        <div class="" id="sendInvoiceOffcanvas" style="visibility: visible;"
+                                             aria-modal="true" role="dialog">
+
+                                            <div class="offcanvas-body flex-grow-1">
+                                                <form method="post">
+                                                    <div class="select2-primary ">
+                                                        <label for="select2Primary" class="form-label">المستلمين</label>
+                                                        <select required name="to" id="select2Primary"
+                                                                class="select2 form-select" multiple>
+                                                            @foreach (var item in DbContext.Customers.ToList())
+                                                            {
+                                                                <option value="@item.PhoneNumber">@item.PhoneNumber</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+
+                                                    <label for="invoice-message" class="form-label">نص الرسالة</label>
+                                                    <textarea required class="form-control" name="message"
+                                                        id="invoice-message" placeholder="مرحبا..." cols="3" rows="15">
+                                                    </textarea>
+                                                    <br>
+                                                    <div class="d-flex flex-wrap mb-3 d-flex justify-content-end">
+                                                        <button type="reset" class="btn btn-danger me-2"
+                                                                data-bs-dismiss="offcanvas">
+                                                            <i class="menu-icon tf-icons bx bx-x"></i>إلغاء
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary ms-2"
+                                                                data-bs-dismiss="offcanvas">
+                                                            <i class="bx bx-paper-plane bx-xs me-3"></i>إرسال
+                                                        </button>
+
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <!-- Offcanvas to add new user -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / Layout wrapper -->
+</div>
+
+@section Script{
+    <script>
+        $(function () {
+            const selectPicker = $('.selectpicker'),
+                select2 = $('.select2'),
+                select2Icons = $('.select2-icons');
+
+            // Bootstrap Select
+            // --------------------------------------------------------------------
+            if (selectPicker.length) {
+                selectPicker.selectpicker();
+            }
+
+            // Select2
+            // --------------------------------------------------------------------
+
+            // Default
+            if (select2.length) {
+                select2.each(function () {
+                    var $this = $(this);
+                    $this.wrap('<div class="position-relative"></div>').select2({
+                        placeholder: 'رقم الهاتف',
+                        dropdownParent: $this.parent()
+                    });
+                });
+            }
+
+            // Select2 Icons
+            if (select2Icons.length) {
+                // custom template to render icons
+                function renderIcons(option) {
+                    if (!option.id) {
+                        return option.text;
+                    }
+                    var $icon = "<i class='bx bxl-" + $(option.element).data('icon') + " me-2'></i>" + option.text;
+
+                    return $icon;
+                }
+                select2Icons.wrap('<div class="position-relative"></div>').select2({
+                    templateResult: renderIcons,
+                    templateSelection: renderIcons,
+                    escapeMarkup: function (es) {
+                        return es;
+                    }
+                });
+            }
+        });
+    </script>
+}

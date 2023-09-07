@@ -1,0 +1,236 @@
+﻿@model CallViewModel
+@inject UserManager<ApplicationUser> userManager
+@inject SignInManager<ApplicationUser> signInManager
+@{
+    ViewData["title"] = "الصلاحيات";
+}
+
+<div class="layout-wrapper layout-content-navbar">
+    <div dir="" class="layout-container">
+        <!-- Menu -->
+
+        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+            <div class="app-brand demo">
+                <div class="container">
+                    <img src="~/assets/img/favicon/crm.png" style="width:100% !important; height:100%;" />
+                </div>
+                <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+                    <i class="bx menu-toggle-icon fs-4 d-none d-xl-block align-middle"></i>
+                    <i class="bx bx-x bx-sm d-xl-none d-block align-middle"></i>
+                </a>
+            </div>
+            <span class="app-brand-text demo menu-text fw-bold ms-2">@SystemInfoResource.SystemName</span>
+            <div class="menu-divider mt-0"></div>
+            <div class="menu-inner-shadow"></div>
+            <ul class="menu-inner py-1">
+                <li class="menu-item" style="">
+                    <a href="/customer" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-user"></i>
+                        <div>@SideBarResources.Clients</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/call" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-phone"></i>
+                        <div>@SideBarResources.Calls</div>
+                    </a>
+                </li>
+                @* <li class="menu-item">
+                    <a href="/session" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-chat"></i>
+                        <div>@SideBarResources.Sessions</div>
+                    </a>
+                </li> *@
+                <li class="menu-item activ">
+                    <a href="/message" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-message"></i>
+                        <div>@SideBarResources.Message</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/email" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-envelope"></i>
+                        <div>@SideBarResources.EmailMessage</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/question" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-question-mark"></i>
+                        <div>@SideBarResources.QuestionAndAnswers</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-calendar"></i>
+                        <div>@SideBarResources.Scheduling</div>
+                    </a>
+                </li>
+                <li class="menu-item open">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons bx bx-cog"></i>
+                        <div>@SideBarResources.Setting</div>
+                    </a>
+                    <ul class="menu-sub">
+                        <li class="menu-item">
+                            <a href="/setting" class="menu-link">
+                                <div>@SideBarResources.SystemUsers</div>
+                            </a>
+                        </li>
+                        <li class="menu-item active">
+                            <a href="/setting/roles" class="menu-link">
+                                <div>@SideBarResources.Roles</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item mt-auto">
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <div class="p-4 align-self-end d-flex">
+                            @if ((await userManager.GetUserAsync(User)).Extentions?.Count() > 0)
+                            {
+                                @((await userManager.GetUserAsync(User)).Extentions.First().ExtensionNumber)
+                            }
+                            @((await userManager.GetUserAsync(User)).Name)
+                            <form method="post" action="/Account/Logout" class="align-self-end pr-2">
+                                <label>
+                                    <input type="submit" class="d-none" />
+                                    <i class="menu-icon tf-icons bx bx-log-in cursor-pointer icons-danger"
+                                        ></i>
+                                </label>
+                            </form>
+                        </div>
+                    }
+                </li>
+            </ul>
+        </aside>
+        <!-- / Menu -->
+        <div class="layout-page">
+
+            <!-- / Menu -->
+            <div class="content-wrapper">
+                <!-- Content -->
+
+                <div class="container-xxl flex-grow-1 container-p-y">
+
+
+                    <div class="card">
+                        <h2 class="card-header"> الصلاحيات </h2>
+                        <div class="card-datatable text-nowrap">
+                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-7 demo-inline-spacing d-flex justify-content-md-end ">
+
+                                        <div class="dataTables_filter ">
+                                            <label>
+                                                اسم الوظيفة
+                                                <input type="text " size="35" class="form-control"
+                                                    placeholder="اسم الوظيفة" aria-controls="DataTables_Table_0">
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-5 d-flex  justify-content-md-end ">
+                                        <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                            <label>
+                                                <span class="px-2">@FormResources.SearchN:</span>
+                                                <input type="search" class="form-control"
+                                                    placeholder="@FormResources.Search" aria-controls="per_page">
+                                            </label>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                                <div class="dataTables_scroll">
+                                    <div class="dataTables_scrollHead"
+                                        style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+                                    </div>
+                                    <div class="dataTables_scrollBody"
+                                        style="position: relative; overflow: auto; width: 100%; max-height: 350px; height: 350px;">
+                                        <table class="datatables-users table border-down">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:50px;"> @TableHeaderPermission.Effective</th>
+                                                    <th style="width:50px;">@TableHeaderPermission.Id </th>
+                                                    <th> @TableHeaderPermission.Show</th>
+                                                    <th>@TableHeaderPermission.Name </th>
+                                                    <th> @TableHeaderPermission.Description </th>
+                                                    <th style="width:200px;">@TableHeaderPermission.Options </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox">
+                                                    </td>
+                                                    <td>0</td>
+                                                    <td>مدير </td>
+                                                    <td>admin</td>
+                                                    <td>صلاحيات وصول كاملة للنظام </td>
+                                                    <td>
+                                                        <i class="bx bx-dots-vertical-rounded"></i>
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status"
+                                            aria-live="polite">
+                                            عرض
+                                            @ViewData["StartRowNumber"]
+                                            الى
+                                            @ViewData["EndRowNumber"]
+                                            من
+                                            @ViewData["TotalItem"]
+                                            صف
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end">
+                                        <div class="dataTables_paginate paging_simple_numbers"
+                                            id="DataTables_Table_0_paginate">
+                                            <ul class="pagination">
+                                                <li class="paginate_button page-item previous active"
+                                                    id="DataTables_Table_0_previous">
+                                                    <a href='@ViewData["PreviousPage"]'
+                                                        aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0"
+                                                        class="page-link">
+                                                        @FormResources.Previous
+                                                    </a>
+                                                </li>
+                                                <li class="paginate_button" id="">
+                                                    <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1"
+                                                        tabindex="0" class="page-link ">
+                                                        @ViewData["Page"]/@ViewData["TotalPage"]
+                                                    </a>
+                                                </li>
+                                                <li class="paginate_button page-item next active "
+                                                    id="DataTables_Table_0_next">
+                                                    <a href='@ViewData["NextPage"]' aria-controls="DataTables_Table_0"
+                                                        data-dt-idx="1" tabindex="0" class="page-link">
+                                                        @FormResources.Next
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Offcanvas to add new user -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / Layout wrapper -->
+</div>

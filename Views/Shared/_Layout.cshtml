@@ -1,0 +1,206 @@
+﻿@inject UserManager<ApplicationUser> UserManager;
+@inject SignInManager<ApplicationUser> SignInManager;
+<!DOCTYPE html>
+
+<html lang="ar"
+      class="light-style layout-navbar-fixed layout-menu-fixed"
+      dir="rtl"
+      data-theme="theme-default"
+      data-assets-path="~/assets/"
+      data-template="vertical-menu-template-no-customizer-starter">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+
+    <title>@ViewData["title"]</title>
+
+    <meta name="description" content=""/>
+    <link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel='stylesheet'
+          href='https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css'>
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link rel="stylesheet" href="~/css/fonts.css">
+
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet"/>
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="~/assets/vendor/fonts/boxicons.css"/>
+    <link rel="stylesheet" href="~/assets/vendor/fonts/fontawesome.css"/>
+    <link rel="stylesheet" href="~/assets/vendor/fonts/flag-icons.css"/>
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="~/assets/vendor/css/rtl/core.css" class="template-customizer-core-css"/>
+    <link rel="stylesheet" href="~/assets/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css"/>
+    <link rel="stylesheet" href="~/assets/css/demo.css"/>
+    <link rel="stylesheet" href="~/assets/css/style.css">
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="~/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css"/>
+    <link rel="stylesheet" href="~/assets/vendor/libs/typeahead-js/typeahead.css"/>
+    <link rel="stylesheet" href="~/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css"/>
+    <link rel="stylesheet" href="~/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css"/>
+    <link rel="stylesheet" href="~/assets/vendor/libs/datatables-select-bs5/select.bootstrap5.css"/>
+    <link rel="stylesheet" href="~/assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css"/>
+    <link rel="stylesheet" href="~/assets/vendor/libs/datatables-fixedcolumns-bs5/fixedcolumns.bootstrap5.css"/>
+    <link rel="stylesheet" href="~/assets/vendor/libs/datatables-fixedheader-bs5/fixedheader.bootstrap5.css"/>
+    <link rel="stylesheet" href="~/assets/vendor/libs/fullcalendar/fullcalendar.css"/>
+    <link rel="stylesheet" href="~/assets/vendor/libs/flatpickr/flatpickr.css"/>
+    <link rel="stylesheet" href="~/assets/vendor/libs/select2/select2.css"/>
+    <link rel="stylesheet" href="~/assets/vendor/libs/quill/editor.css"/>
+    <link rel="stylesheet" href="~/assets/vendor/libs/formvalidation/dist/css/formValidation.min.css"/>
+
+    <!-- Page CSS -->
+
+    <link rel="stylesheet" href="~/assets/vendor/css/pages/app-calendar.css"/>
+    <link rel="stylesheet" href="~/assets/vendor/libs/typeahead-js/typeahead.css"/>
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="~/assets/vendor/libs/flatpickr/flatpickr.css" />
+    <link rel="stylesheet" href="~/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css" />
+    <link rel="stylesheet" href="~/assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css" />
+    <link rel="stylesheet" href="~/assets/vendor/libs/jquery-timepicker/jquery-timepicker.css" />
+    <link rel="stylesheet" href="~/assets/vendor/libs/pickr/pickr-themes.css" />
+    <!-- Helpers -->
+
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="~/assets/img/favicon/crm.png"/>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+          rel="stylesheet"/>
+
+    <link rel="stylesheet" href="~/css/site.css">
+    <!-- Page CSS -->
+
+    <!-- Helpers -->
+    <script src="~/assets/vendor/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
+    @*<script src="~/assets/vendor/js/template-customizer.js"></script>*@
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="~/assets/js/config.js"></script>
+
+    <style>
+        *{
+            font-family: RB,serif !important;
+        }
+    </style>
+
+    @await RenderSectionAsync("Head", required: false)
+</head>
+
+<body>
+@RenderBody()
+<div class="offcanvas offcanvas-end" id="newCallSideBar" style="visibility: visible;" aria-modal="true" role="dialog">
+    <div class="offcanvas-header border-bottom">
+        <h2 class="offcanvas-title">إتصال وارد </h2>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+
+    <div class="offcanvas-body flex-grow-1">
+        <h5 id="newCallName" class="text-center">عمر فؤاد عمر القطابري</h5>
+        <h4 id="newCallPhoneNumber" class="text-center">770973531</h4>
+    </div>
+    <div class="d-flex gap-2 w-100 align-items-center justify-content-evenly mb-3">
+        <a id="newCallNextUrl" class="btn btn-primary " href="">قبول</a>
+        <a href="/end-call?url=@Context.Request.Path" class="btn btn-danger ">رفض</a>
+    </div>
+
+</div>
+
+<!-- Core JS -->
+<!-- build:js assets/vendor/js/core.js -->
+<link rel="stylesheet" href="~/assets/vendor/libs/animate-css/animate.css"/>
+<link rel="stylesheet" href="~/assets/vendor/libs/sweetalert2/sweetalert2.css"/>
+<script src="~/assets/vendor/libs/jquery/jquery.js"></script>
+<script src="~/assets/vendor/libs/popper/popper.js"></script>
+<script src="~/assets/vendor/js/bootstrap.js"></script>
+<script src="~/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script src="~/assets/vendor/libs/hammer/hammer.js"></script>
+<script src="~/assets/vendor/libs/i18n/i18n.js"></script>
+<script src="~/assets/vendor/libs/typeahead-js/typeahead.js"></script>
+
+<script src="~/assets/vendor/js/menu.js"></script>
+<script src="~/assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js"></script>
+<script src="~/assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
+<script src="~/assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js"></script>
+<script src="~/assets/vendor/libs/select2/select2.js"></script>
+<script src="~/assets/vendor/libs/flatpickr/flatpickr.js"></script>
+<script src="~/assets/vendor/libs/moment/moment.js"></script>
+ <script src="~/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+<script src="~/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+<script src="~/assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js"></script>
+<script src="~/assets/vendor/libs/pickr/pickr.js"></script>
+<script src="~/assets/js/pages-auth.js"></script>
+@* <script src="~/assets/js/forms-pickers.js"></script> *@
+
+<script src="~/assets/vendor/js/menu.js"></script>
+<script src="~/js/axios.min.js"></script>
+<script src="~/js/signalr.js"></script>
+<!-- endbuild -->
+@if(SignInManager.IsSignedIn(User))
+{
+@if(UserManager.IsInRoleAsync(await UserManager.GetUserAsync(Context.User), CRM_mvc.Utilities.Enumerations.MainRoles.USER.ToString()).Result)
+{
+    <script src="~/js/getNewCall.js"></script>
+}
+}
+<!-- Main JS -->
+<script src="~/assets/js/main.js"></script>
+<script>
+        function search(e) {
+            let search = e.target.value
+            window.location.replace(window.location.href.split('?')[0] + '?search=' + search)
+        }
+
+        function pageSize(e) {
+            let search = e.target.value
+            window.location.replace(window.location.href.split('?')[0] + '?pageSize=' + search)
+        }
+        $(document).ready(function () {
+        const searchInput = $('#search');
+        const pageSizeInput = $('#pageSize');
+            if (searchInput) 
+                searchInput.on('input', search);
+            
+            if (pageSizeInput) 
+                pageSizeInput.on('change', pageSize);
+            
+        });
+    </script>
+
+<script src="~/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
+<script>
+         $(document).ready(function () {
+          
+            @if (Context.Session.GetString(SessionKeys.NotifyType) != null)
+            {
+                <text>
+                Swal.fire({
+                    title: '@Context.Session.GetString(SessionKeys.NotifyTitle)',
+                    html:'@Context.Session.GetString(SessionKeys.NotifyMessage)',
+                    icon: '@Context.Session.GetString(SessionKeys.NotifyType)',
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    buttonsStyling: false,
+                });
+                </text>
+                Helper.ClearNotification(Context);
+            }
+         });
+    </script>
+@await RenderSectionAsync("Script", required: false)
+</body>
+</html>

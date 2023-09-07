@@ -1,0 +1,61 @@
+﻿@*
+For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["title"] = "طلب جلسة";
+}
+
+<div class="container-xxl">
+    <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner py-4 d-flex align-items-center justify-content-center">
+            <!-- Register -->
+            <div class="card" style="width:400px !important;">
+
+                <div class="card-body">
+                    <!-- Logo -->
+
+                    <div class="container">
+                        <img src="~/assets/img/favicon/crm.png" style="width:100% !important; height:100%;" />
+                    </div>
+                    <div class="app-brand justify-content-center">
+                        <span class="app-brand-text demo h3 fw-bold mb-0">@SystemInfoResource.SystemName</span>
+
+                    </div>
+
+                    <!-- /Logo -->
+
+
+                    <h2> @FormResources.SessionRequest</h2>
+                    <p>@FormResources.EnterInformationSession </p>
+                    <form id="formAuthentication" class="mb-3" action="/session/askforsession"
+                        method="POST">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">@FormResources.Name </label>
+                            <input type="text" class="form-control" id="email" name="Name"
+                                placeholder="@FormResources.EnterCustomerName" autofocus />
+                        </div>
+                        <div class="form-password-toggle mb-3">
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label" for="number">@FormResources.NumberPhone </label>
+
+                            </div>
+                            <div class="input-group input-group-merge">
+                                <input type="text" id="number" class="form-control phone-number-mask" name="Phone"
+                                    placeholder="@FormResources.EnterNuberPhone" />
+
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <button class="btn btn-primary d-grid w-100" type="submit">@FormResources.SendCode</button>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+            <!-- /Register -->
+        </div>
+    </div>
+</div>
+

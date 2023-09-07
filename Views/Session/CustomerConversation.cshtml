@@ -1,0 +1,53 @@
+@{
+    ViewData["title"] = "المحادثات";
+}
+<div class="content-wrapper">
+    <!-- Content -->
+    <div class="container-xxl flex-grow-1 container-p-y row">
+        <!-- Offcanvas to add new user -->
+        <div class="contain">
+            <div class="checkbox-card h-100 d-flex flex-column align-items-center justify-content-between">
+                <div class="settings-tray w-100">
+                    <div class="panel-heading friend-drawer no-gutters friend-drawer--grey">
+                        <div class="text ">
+                            <h5 id="customerName"></h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-panel w-100">
+                    <div class="chat-messages panel-body"></div>
+                    <div id="messages" style="height: 360px; overflow-y: scroll"></div>
+                    <div id="submit-message-div" class="row passport-box mt-auto">
+                        <form id="sendForm" class="chat-input ">
+                            <input type="hidden" name="id" id="sessionId" value='@ViewData["SessionId"]'/>
+                            <div class="d-flex align-items-center d-none" id="preview-image">
+
+                            </div>
+                            <div class="chat-box-tray d-flex align-items-center justify-content-evenly">
+                                <input type="text" class="px-2" id="message" placeholder="أكتب الرسالة عنا...">
+                                <button id="submit-message" style="border: none;" class="btn btn-icon">
+                                    <i class="bx bx-navigation send-icon"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="pp" id="closed">
+                        <h4 class="text-center">الجلسة مغلقة</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Script{
+    <script src="~/js/chat.js"></script>
+    <script>
+        $(document).ready(function (){
+            updateData('@ViewData["SessionId"]')
+            setInterval(()=> updateData('@ViewData["SessionId"]'),3000);
+        })
+    </script>
+}

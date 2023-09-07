@@ -1,0 +1,27 @@
+namespace CRM_mvc.Utilities.Enumerations;
+
+public enum PermissionsEnum
+{
+    LOGIN,
+    RECIVECALLS,
+    MAKECALLS,
+    VIEWCALLS,
+    EDIT_QUESTIONS,
+    VIEW_QUESTIONS,
+    EDIT_ANSWERS,
+    VIEW_ANSWERS,
+    EDIT_USERS,
+    VIEW_USERS,
+    EDIT_ROLES,
+    VIEW_ROLES,
+    EDIT_PERMISSIONS,
+    VIEW_PERMISSIONS,
+    ADD_POTIENTIAL_CLIENTS,
+    VIEW_CLIENT_INFO,
+    VIEW_EMAILS,
+    SEND_EMAILS,
+    VIEW_SMS,
+    SEND_SMS,
+    VIEW_SESSIONS,
+    ANSWER_SESSIONS,
+}

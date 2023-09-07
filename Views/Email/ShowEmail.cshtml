@@ -1,0 +1,122 @@
+﻿@model EmailDetailsViewModel
+
+@{
+  ViewData["title"] = "عرض الايميل";
+}
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+    <!-- Menu -->
+    <!-- / Menu -->
+    <div class="content-wrapper">
+      <!-- Content -->
+      <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="card">
+          <div class="m-2">
+            <a href="/email" class="btn btn-secondary me-1 me-sm-3" type="">
+              <i class="menu-icon tf-icons bx bx-chevron-right"></i>الرجوع
+            </a>
+          </div>
+          <h2 class="card-header">@PageHeaders.ShowEmail - @Model.DateTime</h2>
+          <div class="card-datatable text-nowrap">
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+              <div class="row">
+                <div class="dataTables_scroll">
+                  <div class="dataTables_scrollHead"
+                    style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+                  </div>
+                  <div class="dataTables_scrollBody"
+                    style="position: relative; overflow: auto; width: 100%; max-height: 600px; height: 600px;">
+
+                    <div class="" id="sendInvoiceOffcanvas" style="visibility: visible;" aria-modal="true"
+                      role="dialog">
+                      <div class="offcanvas-body flex-grow-1">
+                        <div class="mb-3">
+                          <label asp-for="NewSendEmailViewModel.Subject" for="invoice-from" class="form-label">
+                            العنوان</label>
+                          <input disabled value="@Model.Title" type="text" class="form-control" value=""
+                            placeholder="العنوان">
+                          <span asp-validation-for="NewEmail.Subject"></span>
+                        </div>
+                        <div class="mb-3">
+                          <label asp-for="NewSendEmailViewModel.To" for="select2Primary" class="form-label">إلى</label>
+
+                          <div class="select2-primary ">
+                            <select disabled id="select2Primary" class="form-select">
+                              <option selected value="@Model.Emails">@Model.Emails</option>
+                            </select>
+                          </div>
+
+                        </div>
+
+                        <div class="mb-3">
+                          <label for="invoice-message" class="form-label">نص الرسالة</label>
+                          <div class="form-control" disabled id="invoice-message" placeholder="مرحبا..." cols="3"
+                            rows="12">@Model.Body</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+        <!-- Offcanvas to add new user -->
+
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Script{
+  <script>
+    $(function () {
+      const selectPicker = $('.selectpicker'),
+        select2 = $('.select2'),
+        select2Icons = $('.select2-icons');
+
+      // Bootstrap Select
+      // --------------------------------------------------------------------
+      if (selectPicker.length) {
+        selectPicker.selectpicker();
+      }
+
+      // Select2
+      // --------------------------------------------------------------------
+
+      // Default
+      if (select2.length) {
+        select2.each(function () {
+          var $this = $(this);
+          $this.wrap('<div class="position-relative"></div>').select2({
+            placeholder: 'البريد الالكتروني',
+            dropdownParent: $this.parent()
+          });
+        });
+      }
+
+      // Select2 Icons
+      if (select2Icons.length) {
+        // custom template to render icons
+        function renderIcons(option) {
+          if (!option.id) {
+            return option.text;
+          }
+          var $icon = "<i class='bx bxl-" + $(option.element).data('icon') + " me-2'></i>" + option.text;
+
+          return $icon;
+        }
+        select2Icons.wrap('<div class="position-relative"></div>').select2({
+          templateResult: renderIcons,
+          templateSelection: renderIcons,
+          escapeMarkup: function (es) {
+            return es;
+          }
+        });
+      }
+    });
+  </script>
+}

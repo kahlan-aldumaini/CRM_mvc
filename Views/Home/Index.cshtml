@@ -1,0 +1,262 @@
+﻿@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    ViewData["Title"] = "الصفحة الرئيسية";
+}
+<div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+        <!-- Menu -->
+        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+            <div class="app-brand demo">
+                <a href="/" class="app-brand-link">
+                    <span class="app-brand-logo demo">
+                        <img src="~/assets/img/favicon/crm-small.png" style="width:100% " alt="" />
+                    </span>
+                    <span class="app-brand-text demo menu-text fw-bold ms-2"
+                        style="font-size:x-large">@SystemInfoResource.SystemName</span>
+                </a>
+
+                <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+                    <i class="bx menu-toggle-icon fs-4 d-none d-xl-block align-middle"></i>
+                    <i class="bx bx-x bx-sm d-xl-none d-block align-middle"></i>
+                </a>
+            </div>
+            <div class="menu-divider mt-0"></div>
+            <div class="menu-inner-shadow"></div>
+            <ul class="menu-inner position-relative">
+                <li class="menu-item active">
+                    <a href="/" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-home"></i>
+                        <div>الصفحة الرئيسية</div>
+                    </a>
+                </li>
+                <li class="menu-item" style="">
+                    <a href="/customer" class="menu-link ">
+                        <i class="menu-icon tf-icons bx bx-user"></i>
+                        <div>@SideBarResources.Clients</div>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a href="/call" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-phone"></i>
+                        <div>@SideBarResources.Calls</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/message" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-message"></i>
+                        <div>@SideBarResources.Message</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/email" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-envelope"></i>
+                        <div>@SideBarResources.EmailMessage</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/question" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-question-mark"></i>
+                        <div>@SideBarResources.QuestionAndAnswers</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/scheduling" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-calendar"></i>
+                        <div>@SideBarResources.Scheduling</div>
+                    </a>
+                </li>
+                @{
+                    var user = await UserManager.GetUserAsync(User);
+                    var role = await UserManager.GetRolesAsync(user);
+                }
+                @if (role.Contains("ADMIN"))
+                {
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-cog"></i>
+                            <div>@SideBarResources.Setting</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="/setting" class="menu-link">
+                                    <div>@SideBarResources.SystemUsers</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <li class="menu-item mt-auto position-absolute" style="bottom: 10px">
+                        <div class="menu-link align-self-end d-flex align-items-center justify-content-between">
+                            <a href="/setting/userinformation?id=@UserManager.GetUserId(User)" class="text-secondary">
+                                <i class="menu-icon tf-icons bx bx-user"></i>
+
+                                @{
+                                    var extensions = (await UserManager.GetUserAsync(User))?.Extentions;
+                                }
+                                @if (extensions != null && extensions.Any())
+                                {
+                                    @((await UserManager.GetUserAsync(User))?.Extentions.First().ExtensionNumber)
+                                }
+                                @UserManager.GetUserName(User)
+                            </a>
+                            <a href="/Account/Logout" class="align-self-end text-secondary">
+                                <i class="menu-icon tf-icons bx bx-log-in cursor-pointer icons-danger"></i>
+                            </a>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </aside>
+        <!-- / Menu -->
+        <div class="layout-page">
+            <!-- Navbar -->
+            <div class="content-wrapper">
+                <!-- Content -->
+                <div class="container-xxl flex-grow-1 container-p-y">
+                    <!-- Layout container -->
+                    <div class="row">
+
+                        <div class="col-md-12 col-lg-6 mb-4">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="card-title mb-0">التقرير الاسبوعي</h5>
+                                </div>
+                                <div class="card-body pb-2">
+                                    <div class="d-flex flex-wrap justify-content-around align-items-center mb-4">
+                                        <div class="user-analytics text-center me-2">
+                                            <i class="bx bx-phone-call me-1"></i>
+                                            <span>الاتصالات</span>
+                                            <div class="d-flex align-items-center mt-2">
+                                                <div class="chart-report" data-key="calls" data-color="success"
+                                                    data-series="0"></div>
+                                                <h3 class="mb-0">0</h3>
+                                            </div>
+                                        </div>
+                                        <div class="sessions-analytics text-center me-2">
+                                            <i class="bx bx-chat me-1"></i>
+                                            <span>الجلسات</span>
+                                            <div class="d-flex align-items-center mt-2">
+                                                <div class="chart-report" data-key="sessions" data-color="warning"
+                                                    data-series="0"></div>
+                                                <h3 class="mb-0">0</h3>
+                                            </div>
+                                        </div>
+                                        <div class="bounce-rate-analytics text-center">
+                                            <i class="bx bx-message me-1"></i>
+                                            <span>رسائل sms</span>
+                                            <div class="d-flex align-items-center mt-2">
+                                                <div class="chart-report" data-key="sms" data-color="danger"
+                                                    data-series="0"></div>
+                                                <h3 class="mb-0">0</h3>
+                                            </div>
+                                        </div>
+                                        <div class="bounce-rate-analytics text-center">
+                                            <i class="bx bx-mail-send me-1"></i>
+                                            <span>رسائل ايميل</span>
+                                            <div class="d-flex align-items-center mt-2">
+                                                <div class="chart-report" data-key="emails" data-color="info"
+                                                    data-series="0"></div>
+                                                <h3 class="mb-0">0</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="analyticsBarChart"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 col-lg-6">
+                            <div class="row">
+                                <!-- Conversion Chart-->
+                                <div class="col-12 mb-4">
+                                    <div class="card">
+                                        <div class="card-header d-flex justify-content-between pb-3">
+                                            <div class="conversion-title">
+                                                <h5 class="card-title mb-1">التقرير اليومي للمكالمات</h5>
+                                            </div>
+                                            <h2 id="TotalHourlyCalls" class="mb-0">0</h2>
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="conversionBarchart"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Impression Radial Chart-->
+                                <div class="col-12 col-sm-6 mb-4">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <div id="dailyReportDonutChart"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Growth Chart-->
+                                <div class="col-12 col-sm-6">
+                                    <div class="row">
+                                        <div class="col-12 mb-4">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div class="gap-3 d-flex align-items-center">
+                                                            <div class="avatar">
+                                                                <span
+                                                                    class="avatar-initial bg-label-primary rounded-circle">
+                                                                    <i class="bx bx-phone-incoming fs-4">
+                                                                    </i>
+                                                                </span>
+                                                            </div>
+                                                            <div class="card-info">
+                                                                <h5 id="CurrentIncomingCalls"
+                                                                    class="card-title me-2 mb-0"></h5>
+                                                                <small class="text-muted"> الوارده</small>
+                                                            </div>
+                                                        </div>
+                                                        <div id="conversationChart"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mb-4">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div class="gap-3 d-flex align-items-center">
+                                                            <div class="avatar">
+                                                                <span
+                                                                    class="avatar-initial bg-label-warning rounded-circle">
+                                                                    <i class="bx bx-phone-outgoing fs-4">
+                                                                    </i>
+                                                                </span>
+                                                            </div>
+                                                            <div class="card-info">
+                                                                <h5 id="CurrentOutgoingCalls"
+                                                                    class="card-title me-2 mb-0">0</h5>
+                                                                <small class="text-muted"> الصادرة</small>
+                                                            </div>
+                                                        </div>
+                                                        <div id="incomeChart"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Content wrapper -->
+        </div>
+    </div>
+    <!-- / Layout page -->
+</div>
+
+@section Script{
+    <script src="~/assets/js/dashboards-analytics.js"></script>
+    <script src="~/js/RefreshChart.js"></script>
+}

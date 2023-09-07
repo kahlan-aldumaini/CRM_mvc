@@ -1,0 +1,413 @@
+﻿@model EmailViewModel
+@inject ApplicationDbContext ApplicationDbContext
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    ViewData["title"] = "البريد الالكتروني";
+}
+
+<div class="layout-wrapper layout-content-navbar">
+<div class="layout-container">
+<!-- Menu -->
+<!-- Menu -->
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+    <div class="app-brand demo">
+        <a href="/" class="app-brand-link">
+            <span class="app-brand-logo demo">
+                <img src="~/assets/img/favicon/crm-small.png" style="width:100% " alt=""/>
+            </span>
+            <span class="app-brand-text demo menu-text fw-bold ms-2"
+                  style="font-size:x-large">
+                @SystemInfoResource.SystemName
+            </span>
+        </a>
+
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+            <i class="bx menu-toggle-icon fs-4 d-none d-xl-block align-middle"></i>
+            <i class="bx bx-x bx-sm d-xl-none d-block align-middle"></i>
+        </a>
+    </div>
+    <div class="menu-divider mt-0"></div>
+    <div class="menu-inner-shadow"></div>
+    <ul class="menu-inner position-relative">
+        <li class="menu-item ">
+            <a href="/" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home"></i>
+                <div>الصفحة الرئيسية</div>
+            </a>
+        </li>
+        <li class="menu-item" style="">
+            <a href="/customer" class="menu-link ">
+                <i class="menu-icon tf-icons bx bx-user"></i>
+                <div>@SideBarResources.Clients</div>
+            </a>
+        </li>
+        <li class="menu-item ">
+            <a href="/call" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-phone"></i>
+                <div>@SideBarResources.Calls</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="/message" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-message"></i>
+                <div>@SideBarResources.Message</div>
+            </a>
+        </li>
+        <li class="menu-item active">
+            <a href="/email" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-envelope"></i>
+                <div>@SideBarResources.EmailMessage</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="/question" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-question-mark"></i>
+                <div>@SideBarResources.QuestionAndAnswers</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="/scheduling" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-calendar"></i>
+                <div>@SideBarResources.Scheduling</div>
+            </a>
+        </li>
+        @{
+            var user = await UserManager.GetUserAsync(User);
+            var role = await UserManager.GetRolesAsync(user);
+        }
+        @if (role.Contains("ADMIN"))
+        {
+            <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons bx bx-cog"></i>
+                    <div>@SideBarResources.Setting</div>
+                </a>
+                <ul class="menu-sub">
+                    <li class="menu-item">
+                        <a href="/setting" class="menu-link">
+                            <div>@SideBarResources.SystemUsers</div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        }
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="menu-item mt-auto position-absolute" style="bottom: 10px">
+                <div class="menu-link align-self-end d-flex align-items-center justify-content-between">
+                    <a href="/setting/userinformation?id=@UserManager.GetUserId(User)" class="text-secondary">
+                        <i class="menu-icon tf-icons bx bx-user"></i>
+
+                        @{
+                            var extensions = (await UserManager.GetUserAsync(User))?.Extentions;
+                        }
+                        @if (extensions != null && extensions.Any())
+                        {
+                            @((await UserManager.GetUserAsync(User))?.Extentions.First().ExtensionNumber)
+                        }
+                        @UserManager.GetUserName(User)
+                    </a>
+                    <a href="/Account/Logout" class="align-self-end text-secondary">
+                        <i class="menu-icon tf-icons bx bx-log-in cursor-pointer icons-danger"></i>
+                    </a>
+                </div>
+            </li>
+        }
+    </ul>
+</aside>
+<!-- / Menu -->
+<div class="layout-page">
+<div class="content-wrapper">
+<!-- Content -->
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="card">
+        <h2 class="card-header">@PageHeaders.MessageEmail</h2>
+        <div class="card-datatable text-nowrap">
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                <form class="row" action="/email">
+                    <div class="col-sm-12 col-md-4">
+                        <div class="dataTables_length" id="per_page_length">
+                            <label class="d-flex">
+                                <span class="px-2 my-auto">@FormResources.Show</span>
+                                <select id="pageSize" class="form-select w-25 my-auto">
+                                    @if (ViewData["PageSize"]?.ToString() == "10")
+                                    {
+                                        <option value="10" selected>10</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="10">10</option>
+                                    }
+                                    @if (ViewData["PageSize"]?.ToString() == "25")
+                                    {
+                                        <option value="25" selected>25</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="25">25</option>
+                                    }
+                                    @if (ViewData["PageSize"]?.ToString() == "50")
+                                    {
+                                        <option value="50" selected>50</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="50">50</option>
+                                    }
+                                    @if (ViewData["PageSize"]?.ToString() == "100")
+                                    {
+                                        <option value="100" selected>100</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="100">100</option>
+                                    }
+                                </select>
+                                <span class="px-2 my-auto">@FormResources.Inputs</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div
+                        class="col-sm-12 col-md-5 d-flex justify-content-center justify-content-md-end">
+                        <div id="per_page_filter" class="dataTables_filter d-flex align-items-center justify-content-center">
+                            <label class="m-auto">
+                                <span class="px-2">@FormResources.SearchN:</span>
+                                <input type="search" id="search" class="form-control"
+                                       value='@ViewData["Search"]' placeholder="@FormResources.Search"
+                                       aria-controls="per_page">
+                            </label>
+                        </div>
+                        <div id="per_page_filter" class="dataTables_filter mx-2 d-flex">
+                            <button class=" btn-icon btn btn-outline-dark m-auto" type="button"
+                                    data-bs-toggle="offcanvas" data-bs-target="#callFilter">
+                                <i class="bx bx-filter"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3" style="padding:22px !important">
+                        <a class="btn btn-primary " href="/email/sendEmail">
+                            إضافة رسالة
+                        </a>
+                    </div>
+                </form>
+                <div class="dataTables_scroll">
+                    <div class="dataTables_scrollHead"
+                         style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+                    </div>
+                    <div class="dataTables_scrollBody"
+                         style="position: relative; overflow: auto; width: 100%; max-height: 350px; height: 350px;">
+                        <table class="datatables-users table border-down">
+                            <thead>
+                            <tr>
+                                <th style="width:50px;">ايميل العميل </th>
+                                <th>@TableHeaderEmail.Title</th>
+                                <th> @TableHeaderEmail.SenderName </th>
+                                <th style="width:90px;">@TableHeaderEmail.SendDate</th>
+                                <th style="width:200px;">@TableHeaderEmail.Processes </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if (Model.Responses != null)
+                            {
+                                @foreach (var email in Model.Responses)
+                                {
+                                    <tr>
+                                        <td>@email.Emails</td>
+                                        <td>@email.Title </td>
+                                        <td>@email.SenderName</td>
+                                        <td>@email.DateTime</td>
+                                        <td>
+
+                                            <div class="btn-group">
+                                                <button type="button"
+                                                        class="dropdown-toggle hide-arrow btn "
+                                                        style="border: none;" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">
+                                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end  "
+                                                    data-popper-placement="bottom-end"
+                                                    aria-labelledby="dropdownMenuButton2">
+                                                    <li>
+                                                        <a class="dropdown-item"
+                                                           href="/Email/ShowEmail/@email.Id">
+                                                            <i
+                                                                class="menu-icon tf-icons bx bx-link-external">
+                                                            </i>
+                                                            &nbsp; عرض
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item"
+                                                           href="/Email/ReSendEmail/@email.Id">
+                                                            <i class="menu-icon tf-icons bx bx-redo">
+                                                            </i>&nbsp;
+                                                            إعادة إرسال
+                                                        </a>
+                                                    </li>
+                                                </ul>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status"
+                             aria-live="polite">
+                            عرض
+                            @ViewData["StartRowNumber"]
+                            الى
+                            @ViewData["EndRowNumber"]
+                            من
+                            @ViewData["TotalItem"]
+                            صف
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="dataTables_paginate paging_simple_numbers"
+                             id="DataTables_Table_0_paginate">
+                            <ul class="pagination">
+                                @if (int.Parse(ViewData["Page"].ToString()) > 1)
+                                {
+                                    <li class="paginate_button page-item previous active"
+                                        id="DataTables_Table_0_previous">
+                                        <a href='@ViewData["PreviousPage"]'
+                                           aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0"
+                                           class="page-link">
+                                            @FormResources.Previous
+                                        </a>
+                                    </li>
+                                }
+                                <li class="paginate_button" id="">
+                                    <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1"
+                                       tabindex="0" class="page-link ">
+                                        @ViewData["Page"]/@ViewData["TotalPage"]
+                                    </a>
+                                </li>
+                                @if (int.Parse(ViewData["Page"].ToString()) <
+                                     int.Parse(ViewData["TotalPage"].ToString()))
+                                {
+                                    <li class="paginate_button page-item next active "
+                                        id="DataTables_Table_0_next">
+                                        <a href='@ViewData["NextPage"]' aria-controls="DataTables_Table_0"
+                                           data-dt-idx="1" tabindex="0" class="page-link">
+                                            @FormResources.Next
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+@* filter and export to excel *@
+<div class="offcanvas offcanvas-end" id="callFilter" style="visibility: visible;" aria-modal="true" role="dialog">
+    <div class="offcanvas-header border-bottom">
+        <h2 class="offcanvas-title">فلاتر</h2>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body flex-grow-1">
+        <form id="formAuthentication" class="mb-3" method="get">
+            <div class="col-12 mb-4">
+                <label for="dateRangePicker" class="form-label">التاريخ</label>
+                <div class="input-group input-daterange" id="bs-datepicker-daterange">
+                    <input type="text" name="from_date" id="dateRangePicker" value='@ViewData["FromDate"]'
+                           placeholder="من: MM/DD/YYYY" class="form-control">
+                    <span class="input-group-text">الى</span>
+                    <input type="text" name="to_date" value='@ViewData["ToDate"]' placeholder="الى: MM/DD/YYYY"
+                           class="form-control">
+                </div>
+            </div>
+
+            @if (role.Contains("ADMIN"))
+            {
+                <div class="col-12 mb-4 form-group">
+                    <label for="calltype" class="form-label">الموظف</label>
+                    <select class="form-select" name="employee" id="user">
+                        @if (ViewData["User"] == null)
+                        {
+                            <option selected value="">الكل</option>
+                        }
+                        else
+                        {
+                            <option value="">الكل</option>
+                        }
+                        @{
+                            var users = ApplicationDbContext.Users.ToList();
+                        }
+                        @foreach (var item in users)
+                        {
+                            @if (ViewData["User"]?.ToString() == item.Id)
+                            {
+                                <option selected value="@item.Id">@item.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+            }
+
+            <div class="row mt-auto">
+                <div class="form-group col-4 px-1">
+                    <button type="submit" class="btn btn-primary w-100">تحديث</button>
+                </div>
+                <div class="form-group col-4 px-1">
+                    <a id="to_excel"
+                       href='/email/export-to-excel?from_date=@ViewData["FromDate"]&to_date=@ViewData["ToDate"]?employee=@ViewData["User"]'
+                       class="btn btn-outline-success d-flex align-items-center justify-content-around fw-bold w-100"
+                       style="font-size: 12pt;">
+                        <i class="tf-icons bx bx-download"></i>
+                        <span class="px-2">Excel</span>
+                    </a>
+                </div>
+                <div class="form-group col-4 px-1">
+                    <a href="/email" class="btn btn-outline-danger w-100">
+                        تصفية
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Script{
+    <script>
+        $(document).ready(function () {
+            const bsDatepickerRange = $('#bs-datepicker-daterange'), toExcel = $("#to_excel"), user = $("#user");
+            if (bsDatepickerRange.length) {
+                bsDatepickerRange.find('input').datepicker({
+                    todayHighlight: true,
+                    orientation: 'auto left'
+                });
+            }
+            function getExcel() {
+                toExcel.attr("href", `/email/export-to-excel?from_date=${bsDatepickerRange.find('input').first().val()}&to_date=${bsDatepickerRange.find('input').last().val()}&employee=${user.val()}`)
+            }
+            user.on('change', getExcel)
+            bsDatepickerRange.children('input').on('change', getExcel)
+        })
+
+    </script>
+}

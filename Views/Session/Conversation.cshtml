@@ -1,0 +1,213 @@
+﻿@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@{
+    ViewData["title"] = "المحادثات";
+}
+<div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+        <!-- Menu -->
+        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+            <div class="app-brand demo">
+                <a href="/" class="app-brand-link">
+                    <span class="app-brand-logo demo">
+                        <img src="~/assets/img/favicon/crm-small.png" style="width:100% " alt=""/>
+                    </span>
+                    <span class="app-brand-text demo menu-text fw-bold ms-2" style="font-size:x-large">
+                        @SystemInfoResource.SystemName
+                    </span>
+                </a>
+                <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+                    <i class="bx menu-toggle-icon fs-4 d-none d-xl-block align-middle"></i>
+                    <i class="bx bx-x bx-sm d-xl-none d-block align-middle"></i>
+                </a>
+            </div>
+            <div class="menu-divider mt-0"></div>
+            <div class="menu-inner-shadow"></div>
+            <ul class="menu-inner py-1">
+                <li class="menu-item">
+                    <a href="/" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-home"></i>
+                        <div>الصفحة الرئيسية</div>
+                    </a>
+                </li>
+                <li class="menu-item" style="">
+                    <a href="/customer" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-user"></i>
+                        <div>@SideBarResources.Clients</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/call" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-phone"></i>
+                        <div>@SideBarResources.Calls</div>
+                    </a>
+                </li>
+                @* <li class="menu-item active">
+                    <a href="/session" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-chat"></i>
+                        <div>@SideBarResources.Sessions</div>
+                    </a>
+                </li> *@
+                <li class="menu-item ">
+                    <a href="/message" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-message"></i>
+                        <div>@SideBarResources.Message</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/email" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-envelope"></i>
+                        <div>@SideBarResources.EmailMessage</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/question" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-question-mark"></i>
+                        <div>@SideBarResources.QuestionAndAnswers</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-calendar"></i>
+                        <div>@SideBarResources.Scheduling</div>
+                    </a>
+                </li>
+                @{
+                    var user = await UserManager.GetUserAsync(User);
+                    var role = await UserManager.GetRolesAsync(user!);
+                }
+                @if (role.Contains("ADMIN"))
+                {
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-cog"></i>
+                            <div>@SideBarResources.Setting</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="/setting" class="menu-link">
+                                    <div>@SideBarResources.SystemUsers</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <li class="menu-item mt-auto">
+                        <div class="menu-link pb-2 align-self-end d-flex align-items-center justify-content-between">
+                            <a href="/setting/userinformation?id=@UserManager.GetUserId(User)" class="text-secondary">
+                                <i class="menu-icon tf-icons bx bx-user"></i>
+                                @if ((await UserManager.GetUserAsync(User))?.Extentions?.Count() > 0)
+                                {
+                                    @(((await UserManager.GetUserAsync(User))!).Extentions.First().ExtensionNumber)
+                                }
+                                @UserManager.GetUserName(User)
+                            </a>
+                            <a href="/Account/Logout" class="align-self-end text-secondary">
+                                <i class="menu-icon tf-icons bx bx-log-in cursor-pointer icons-danger"></i>
+                            </a>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </aside>
+
+        <!-- / Menu -->
+        <div class="layout-page">
+            <div class="content-wrapper">
+                <!-- Content -->
+                <div class="container-xxl flex-grow-1 container-p-y row">
+                    <div dir="" class="col-4 menu-vertical bg-menu-theme">
+                        <i class="bx bx-x d-block d-xl-none bx-sm align-middle"></i>
+                        <br>
+                        <h1 class="container text-primary">@PageHeaders.Session </h1>
+                        <div id="currentConversations" class="">
+                            <div class="search-box mb-2">
+                                <div class="input-wrapper py-1">
+                                    <i class="bx bx-search"></i>
+                                    <input placeholder="البحث" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Offcanvas to add new user -->
+                    <div class="contain col-8">
+                        <div class="checkbox-card h-100 d-flex flex-column align-items-center justify-content-between">
+                            <div class="settings-tray w-100">
+                                <div class="panel-heading friend-drawer no-gutters friend-drawer--grey">
+                                    <div class="text ">
+                                        <h5 id="customerName"></h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chat-panel w-100">
+                                <div class="chat-messages panel-body"></div>
+                                <div id="messages" style="height: 360px; overflow-y: scroll"></div>
+                                @if (role.Contains("USER"))
+                                {
+                                    <div id="submit-message-div" class="row passport-box mt-auto">
+                                        <form id="sendForm" class="chat-input ">
+                                            <input type="hidden" name="id" id="sessionId" value="@ViewData["SessionId"]"/>
+                                            <div class="d-flex align-items-center d-none" id="preview-image">
+
+                                            </div>
+                                            <div class="chat-box-tray d-flex align-items-center justify-content-evenly">
+                                                <input type="text" class="px-2" id="message" placeholder="أكتب الرسالة عنا...">
+                                                @* <div class="btn-group"> *@
+                                                @*     <button type="button" style="border: none;" *@
+                                                @*             class="btn  btn-icon file-icon" *@
+                                                @*             data-bs-toggle="dropdown"> *@
+                                                @*         <i class="bx bx-paperclip"></i> *@
+                                                @*     </button> *@
+                                                @*     <ul class="dropdown-menu dropdown-menu-end " *@
+                                                @*         data-popper-placement="bottom-end" *@
+                                                @*         aria-labelledby="dropdownMenuButton2" *@
+                                                @*         style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(-129px, 40px, 0px);"> *@
+                                                @*         <li> *@
+                                                @*             <label class="dropdown-item" type="file" href=""> *@
+                                                @*                 <input type="file" accept="image/*" class="d-none files"/> *@
+                                                @*                 <i class="menu-icon tf-icons bx bx-image"></i> *@
+                                                @*                 &nbsp; صورة *@
+                                                @*             </label> *@
+                                                @*         </li> *@
+                                                @*         $1$ <li> #1# *@
+                                                @*         $1$     <label type="file" class="dropdown-item"> #1# *@
+                                                @*         $1$         <input type="file" class="d-none files"/> #1# *@
+                                                @*         $1$         <i class="menu-icon tf-icons bx bx-file"></i>&nbsp; #1# *@
+                                                @*         $1$         ملف #1# *@
+                                                @*         $1$     </label> #1# *@
+                                                @*         $1$ </li > #1# *@
+                                                @*     </ul > *@
+                                                @* </div > *@
+                                                @* *@
+                                                <button id="submit-message" style="border: none;"
+                                                        class="btn btn-icon">
+                                                    <i class="bx bx-navigation send-icon"></i>
+                                                </button>
+                                            </div >
+                                        </form >
+                                    </div>
+                                }
+                                <div class="pp" id="closed">
+                                    <h4 class="text-center">الجلسة مغلقة</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Script{
+    <script src="~/js/chat.js"></script>
+    <script>
+        $(document).ready(function (){
+            updateData('@ViewData["SessionId"]')
+            setInterval(()=> updateData('@ViewData["SessionId"]'),3000);
+        })
+    </script>
+}
