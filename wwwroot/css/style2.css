@@ -1,0 +1,60 @@
+#calendar-container {
+	margin: 10px auto;
+	width: 270px;
+	font-family: Arial, sans-serif;
+	height: 200px;
+}
+
+#header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#prev-month-button, #next-month-button {
+	border: none;
+	background-color: white;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+#month-year-container {
+	display: flex;
+	align-items: center;
+}
+
+#month {
+	font-size: 20px;
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+#year {
+	font-size: 20px;
+	padding: 5px;
+}
+
+#calendar {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#calendar th, #calendar td {
+	text-align: center;
+	padding: 2px;
+	border:none;
+}
+
+#calendar td {
+	cursor: pointer;
+}
+
+#calendar td.event {
+	background-color: yellow;
+}
+.today{
+  border: 1px;
+  border-radius: 5px;
+  background-color: rgb(10, 6, 238);
+  color: white;
+}

@@ -1,0 +1,117 @@
+/* Import Google font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+* {
+    font-family: RB !important;
+}
+
+
+.wrapper {
+    width: 100%;
+    height: 100%;
+    background: white;
+}
+
+.wrapper header {
+    display: flex;
+    align-items: center;
+    padding: 25px 30px 10px;
+}
+
+header .icons {
+    display: flex;
+
+}
+
+header .icons span {
+    height: 38px;
+    width: 38px;
+    margin: 0 1px;
+    cursor: pointer;
+    color: black;
+    text-align: center;
+    line-height: 38px;
+    font-size: 2rem;
+    user-select: none;
+    border-radius: 50%;
+}
+
+.icons span:last-child {
+    margin-right: -10px;
+}
+
+header .icons span:hover {
+    background: #f2f2f2;
+}
+
+header .current-date {
+    font-size: 1.45rem;
+    font-weight: 500;
+}
+
+.calendar {
+    padding: 0;
+}
+
+.calendar tr {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    text-align: center;
+    border: 1px solid;
+}
+
+.calendar .days {
+    margin-bottom: 0;
+}
+
+.calendar th {
+    color: black;
+    width: calc(100% / 7);
+    font-size: 1.07rem;
+}
+
+.calendar .weeks th {
+    font-weight: 500;
+    cursor: default;
+}
+
+.calendar .days th {
+    padding-top: 40px;
+    height: 100px;
+    z-index: 1;
+    cursor: pointer;
+    position: relative;
+    margin-top: 0;
+    border-bottom: 1px solid;
+}
+
+.days th.inactive {
+    color: #aaa;
+}
+
+.days th.active {
+    color: rgb(8, 0, 0);
+}
+
+.days th::before {
+    position: absolute;
+    content: "";
+    left: 50%;
+    top: 50%;
+    height: 40px;
+    width: 40px;
+    z-index: -1;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.days th.active::before {
+    background: #9B59B6;
+}
+
+.days th:not(.active):hover::before {
+    background: #f2f2f2;
+}
+
+/* width */
