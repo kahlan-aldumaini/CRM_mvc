@@ -1,0 +1,165 @@
+is_global = true
+build_property.TargetFramework = net7.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = CRM_mvc
+build_property.RootNamespace = CRM_mvc
+build_property.ProjectDir = e:\univ\4th\Graguated project\projects\CRM_mvc\CRM_mvc\
+build_property.RazorLangVersion = 7.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = e:\univ\4th\Graguated project\projects\CRM_mvc\CRM_mvc
+build_property._RazorSourceGeneratorDebug = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Account/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Account/ForgetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxGb3JnZXRQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Account/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Account/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZXNldFBhc3N3b3JkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Call/CallInformation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsbFxDYWxsSW5mb3JtYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Call/Calling.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsbFxDYWxsaW5nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Call/CallQuestionAnswers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsbFxDYWxsUXVlc3Rpb25BbnN3ZXJzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Call/EndCall.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsbFxFbmRDYWxsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Call/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsbFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Call/NewCustomer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FsbFxOZXdDdXN0b21lci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Customer/CustomerInformation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcQ3VzdG9tZXJJbmZvcm1hdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Customer/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Email/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1haWxcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Email/SendEmail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1haWxcU2VuZEVtYWlsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Email/ShowEmail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1haWxcU2hvd0VtYWlsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Message/GroupMessage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVzc2FnZVxHcm91cE1lc3NhZ2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Message/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVzc2FnZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Question/Answers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVlc3Rpb25cQW5zd2Vycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Question/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVlc3Rpb25cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Scheduling/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2NoZWR1bGluZ1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Session/AskForSession.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2Vzc2lvblxBc2tGb3JTZXNzaW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Session/ConfirmSession.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2Vzc2lvblxDb25maXJtU2Vzc2lvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Session/Conversation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2Vzc2lvblxDb252ZXJzYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Session/CustomerConversation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2Vzc2lvblxDdXN0b21lckNvbnZlcnNhdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Session/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2Vzc2lvblxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Setting/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dGluZ1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Setting/Permissions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dGluZ1xQZXJtaXNzaW9ucy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Setting/Roles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dGluZ1xSb2xlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Setting/UserInformation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dGluZ1xVc2VySW5mb3JtYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Shared/_CallLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9DYWxsTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = b-5xlu5flq0u
+
+[e:/univ/4th/Graguated project/projects/CRM_mvc/CRM_mvc/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-b3n90qppe4
